@@ -18,3 +18,23 @@ test('la carta se pinta desde CONTENIDO', async ({ page }) => {
   await expect(page.locator('#nota p')).toHaveCount(3);
   await expect(page.locator('#estado')).toHaveText('Toca una canción');
 });
+
+test('al tocar el sobre brota el ramo y llega a la carta', async ({ page }) => {
+  await page.goto('/');
+  await page.click('#sobre');
+  await expect(page.locator('body')).toHaveClass(/bloom/);
+  await expect(page.locator('#pantalla-bloom .flor').first()).toBeAttached();
+  await expect(page.locator('body')).toHaveClass(/carta/, { timeout: 6000 });
+  await expect(page.locator('body')).not.toHaveClass(/bloom/, { timeout: 3000 });
+  await expect(page.locator('#pantalla-carta')).toBeVisible();
+});
+
+test('con reduced-motion se salta el bloom', async ({ browser }) => {
+  const contexto = await browser.newContext({ reducedMotion: 'reduce' });
+  const page = await contexto.newPage();
+  await page.goto('http://localhost/sophia/');
+  await page.click('#sobre');
+  await expect(page.locator('body')).toHaveClass(/carta/, { timeout: 2000 });
+  await expect(page.locator('#pantalla-bloom .flor')).toHaveCount(0);
+  await contexto.close();
+});

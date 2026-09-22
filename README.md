@@ -23,6 +23,7 @@ Cada archivo tiene su origen y licencia en `img/FUENTES.md`.
 
 - 22 sep 2026 — Spec y plan. Esqueleto con contenido pintado desde `CONTENIDO`; 2 tests en verde.
 - 22 sep 2026 — 11 flores, cuarto y sobre en `img/` con fuentes.
+- 22 sep 2026 — Bloom: 22 flores con variables CSS, fundido a la carta, reduced-motion.
 
 ## Pendientes
 
