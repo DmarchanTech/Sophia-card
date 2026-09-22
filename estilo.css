@@ -1,0 +1,118 @@
+:root {
+  --crema: #efe6d8;
+  --crema-claro: #f8f2e6;
+  --salvia: #8a9a7b;
+  --salvia-oscuro: #5f6e52;
+  --nota: #fbf3d5;
+  --ciruela: #2b1d2e;
+  --tinta: #2f2a26;
+  --tinta-suave: #7a716a;
+  --rosa: #e9b7c4;
+  --serif: 'Playfair Display', Georgia, serif;
+  --sans: 'Inter', system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body {
+  background: var(--crema);
+  color: var(--tinta);
+  font-family: var(--sans);
+  font-size: 16px;
+  overflow: hidden;
+}
+
+/* ---------- capas ---------- */
+.capa { position: fixed; inset: 0; }
+
+#pantalla-sobre {
+  z-index: 30;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 24px;
+}
+body:not(.sobre) #pantalla-sobre { display: none; }
+#sobre { background: none; border: 0; padding: 0; cursor: pointer; min-width: 44px; min-height: 44px; }
+#sobre img { width: min(60vw, 260px); animation: mecer 3s ease-in-out infinite; }
+@keyframes mecer { 50% { transform: rotate(-2deg) translateY(-4px); } }
+.pista { font-family: var(--serif); font-style: italic; color: var(--tinta-suave); margin: 0; }
+
+#pantalla-bloom { z-index: 20; display: none; background: var(--crema); overflow: hidden; }
+body.bloom #pantalla-bloom { display: block; }
+
+#pantalla-carta {
+  z-index: 10;
+  overflow-y: auto;
+  opacity: 0; visibility: hidden;
+  transition: opacity .9s ease, visibility 0s .9s;
+}
+body.carta #pantalla-carta { opacity: 1; visibility: visible; transition-delay: 0s; }
+.cuarto {
+  position: fixed; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1;
+}
+#pantalla-carta::before {
+  content: ''; position: fixed; inset: 0; z-index: -1;
+  background: linear-gradient(180deg, rgba(240,200,210,.35), rgba(240,220,215,.55));
+}
+
+/* ---------- tarjeta ---------- */
+.tarjeta {
+  background: var(--crema-claro);
+  margin: 24px 16px 96px;
+  padding: 24px 20px;
+  border-radius: 6px;
+  border: 1px solid rgba(0,0,0,.06);
+  box-shadow: 0 20px 50px rgba(80,40,50,.18);
+}
+.cabecera {
+  margin: 0 0 4px;
+  font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--tinta-suave);
+}
+h1 { font-family: var(--serif); font-weight: 500; font-size: 32px; margin: 0 0 20px; }
+
+/* ---------- playlist ---------- */
+#playlist { list-style: none; margin: 0; padding: 0; }
+#playlist li {
+  display: grid; grid-template-columns: 28px 1fr 36px; align-items: center; gap: 8px;
+  padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,.08);
+}
+#playlist .num { font-family: var(--serif); font-style: italic; color: var(--tinta-suave); }
+#playlist .titulo { font-weight: 600; font-size: 14px; }
+#playlist .artista { font-size: 12px; color: var(--tinta-suave); }
+#playlist button {
+  width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--salvia-oscuro);
+  background: transparent; cursor: pointer; font-size: 12px; color: var(--salvia-oscuro);
+}
+#playlist li.activa button { background: var(--salvia-oscuro); color: #fff; }
+#playlist li.activa button::before { content: '▶'; }
+body.sonando #playlist li.activa button::before { content: '❚❚'; }
+#playlist li:not(.activa) button::before { content: '▶'; }
+#playlist li.error .artista { color: #b03a3a; }
+#playlist.sin-musica button { opacity: .4; pointer-events: none; }
+#estado { font-size: 12px; color: var(--tinta-suave); margin: 8px 0 0; }
+
+/* ---------- nota ---------- */
+.nota {
+  background: var(--nota); padding: 16px 18px; margin-top: 20px;
+  font-family: var(--serif); font-style: italic; font-size: 15px; line-height: 1.55;
+}
+.nota-cab {
+  font-family: var(--sans); font-style: normal; font-size: 10px; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--tinta-suave); margin: 0 0 8px;
+}
+.nota p { margin: 0 0 12px; }
+.firma { margin: 0; }
+
+/* ---------- botón panel ---------- */
+#abrir-panel {
+  position: fixed; left: 16px; bottom: 16px; z-index: 15;
+  background: var(--rosa); color: var(--ciruela); border: 0; border-radius: 999px;
+  padding: 10px 16px; font: 600 13px var(--sans); cursor: pointer;
+  box-shadow: 0 8px 20px rgba(80,40,50,.25);
+}
+
+/* ---------- escritorio ---------- */
+@media (min-width: 900px) {
+  .tarjeta { width: 560px; margin: 32px auto 32px; padding: 32px 36px; }
+  .dos-columnas { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .nota { margin-top: 0; }
+}
