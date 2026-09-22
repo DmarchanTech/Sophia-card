@@ -16,8 +16,11 @@ const CONTENIDO = {
 };
 /* ====================================================== */
 
-// Se rellena en la tarea de imágenes.
-const FLORES = [];
+const FLORES = [
+  'img/flor-01.png', 'img/flor-02.png', 'img/flor-03.png', 'img/flor-04.png',
+  'img/flor-05.png', 'img/flor-06.png', 'img/flor-07.png', 'img/flor-08.png',
+  'img/flor-09.png', 'img/flor-10.png', 'img/flor-11.png',
+];
 
 const $ = (sel) => document.querySelector(sel);
 const body = document.body;

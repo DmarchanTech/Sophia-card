@@ -110,6 +110,18 @@ body.sonando #playlist li.activa button::before { content: '❚❚'; }
   box-shadow: 0 8px 20px rgba(80,40,50,.25);
 }
 
+/* ---------- ramo ---------- */
+.ramo { position: relative; width: 140px; height: 180px; margin: 8px auto 0; }
+.ramo img { position: absolute; width: 70px; top: 0; }
+.ramo img:nth-child(1) { left: 0; }
+.ramo img:nth-child(2) { left: 35px; top: -14px; z-index: 2; }
+.ramo img:nth-child(3) { left: 70px; }
+.cono {
+  position: absolute; left: 40px; top: 60px; width: 60px; height: 120px;
+  background: linear-gradient(160deg, #e9d7bd, #c9b18e);
+  clip-path: polygon(0 0, 100% 0, 60% 100%, 40% 100%);
+}
+
 /* ---------- escritorio ---------- */
 @media (min-width: 900px) {
   .tarjeta { width: 560px; margin: 32px auto 32px; padding: 32px 36px; }

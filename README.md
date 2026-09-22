@@ -22,9 +22,11 @@ Cada archivo tiene su origen y licencia en `img/FUENTES.md`.
 ## Avances
 
 - 22 sep 2026 — Spec y plan. Esqueleto con contenido pintado desde `CONTENIDO`; 2 tests en verde.
+- 22 sep 2026 — 11 flores, cuarto y sobre en `img/` con fuentes.
 
 ## Pendientes
 
+- Imágenes: ningún fallback CSS (hay `cuarto.jpg` y `sobre.png`). Las gerberas 01 y 02 son recortes fotográficos, no acuarela; si aparece una gerbera pintada con licencia libre, cambiarlas.
 - Botón de cierre / "Finish mixtape" (no va por ahora).
 - Nota de audio grabada.
 - Compartir por link corto / hosting.
