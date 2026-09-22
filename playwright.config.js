@@ -10,11 +10,11 @@ module.exports = defineConfig({
   // en su propia raíz con el servidor estático de Python (ya instalado).
   webServer: {
     command: 'python -m http.server 4321',
-    url: 'http://127.0.0.1:4321/',
+    url: 'http://localhost:4321/',
     reuseExistingServer: !process.env.CI,
   },
   use: {
-    baseURL: 'http://127.0.0.1:4321/',
+    baseURL: 'http://localhost:4321/',
     viewport: { width: 390, height: 844 },
   },
   projects: [{ name: 'chromium', use: { browserName: 'chromium' } }],
