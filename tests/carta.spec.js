@@ -48,3 +48,27 @@ test('los carretes del casete giran solo cuando suena', async ({ page }) => {
   await page.evaluate(() => document.body.classList.add('sonando'));
   expect(await estado()).toBe('running');
 });
+
+test('elegir una canción la reproduce y marca la fila', async ({ page }) => {
+  await page.goto('/');
+  await page.click('#sobre');
+  await expect(page.locator('body')).toHaveClass(/carta/, { timeout: 6000 });
+  const hayYouTube = await page.waitForFunction(() => window.YT && window.YT.Player, null, { timeout: 8000 })
+    .then(() => true).catch(() => false);
+  test.skip(!hayYouTube, 'Sin conexión a YouTube: no se puede probar la reproducción');
+  await page.locator('#playlist li').nth(1).locator('button').click();
+  await expect(page.locator('#playlist li').nth(1)).toHaveClass(/activa/);
+  await expect(page.locator('body')).toHaveClass(/sonando/, { timeout: 10000 });
+  await expect(page.locator('#estado')).toHaveText('Reproduciendo: All of Me');
+  await page.locator('#playlist li').nth(1).locator('button').click();
+  await expect(page.locator('body')).not.toHaveClass(/sonando/, { timeout: 5000 });
+  await expect(page.locator('#estado')).toHaveText('En pausa: All of Me');
+});
+
+test('sin la API de YouTube la playlist avisa', async ({ page }) => {
+  await page.route('**/iframe_api', (ruta) => ruta.abort());
+  await page.goto('/');
+  await page.click('#sobre');
+  await expect(page.locator('#estado')).toHaveText('Sin conexión para la música', { timeout: 12000 });
+  await expect(page.locator('#playlist')).toHaveClass(/sin-musica/);
+});

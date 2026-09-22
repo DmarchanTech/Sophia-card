@@ -72,6 +72,7 @@ const prefiereMenosMovimiento = () =>
   window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 function brotar() {
+  if (!body.classList.contains('sobre')) return;
   if (prefiereMenosMovimiento() || FLORES.length === 0) {
     body.classList.replace('sobre', 'carta');
     mostrarCarta();
@@ -113,8 +114,80 @@ function mostrarCarta() {
   if (typeof cargarYouTube === 'function') cargarYouTube();
 }
 
-// ---- YouTube (tarea 5) ----
-function elegir() {}
+// ---- YouTube ----
+const ESPERA_YOUTUBE_MS = 8000;
+let player = null;
+let activa = -1;
+let temporizadorYouTube = null;
+
+function cargarYouTube() {
+  if (document.querySelector('script[src*="iframe_api"]')) return;
+  const script = document.createElement('script');
+  script.src = 'https://www.youtube.com/iframe_api';
+  script.onerror = sinMusica;
+  document.head.appendChild(script);
+  temporizadorYouTube = setTimeout(sinMusica, ESPERA_YOUTUBE_MS);
+  $('#estado').textContent = 'Cargando la música…';
+}
+
+window.onYouTubeIframeAPIReady = function () {
+  clearTimeout(temporizadorYouTube);
+  player = new YT.Player('yt', {
+    videoId: CONTENIDO.canciones[0].youtube,
+    playerVars: { rel: 0, playsinline: 1 },
+    events: {
+      onReady: () => { $('#estado').textContent = 'Toca una canción'; },
+      onStateChange: alCambiarEstado,
+      onError: alFallarVideo,
+    },
+  });
+};
+
+function sinMusica() {
+  $('#estado').textContent = 'Sin conexión para la música';
+  $('#playlist').classList.add('sin-musica');
+}
+
+function elegir(i) {
+  if (!player) return;
+  if (i === activa) {
+    const sonando = player.getPlayerState() === YT.PlayerState.PLAYING;
+    if (sonando) player.pauseVideo(); else player.playVideo();
+    return;
+  }
+  activa = i;
+  marcarActiva();
+  player.loadVideoById(CONTENIDO.canciones[i].youtube);
+}
+
+function marcarActiva() {
+  document.querySelectorAll('#playlist li').forEach((li, i) => {
+    li.classList.toggle('activa', i === activa);
+    li.classList.remove('error');
+  });
+}
+
+function alCambiarEstado(evento) {
+  const cancion = CONTENIDO.canciones[activa];
+  const nombre = cancion ? cancion.titulo : '';
+  if (evento.data === YT.PlayerState.PLAYING) {
+    body.classList.add('sonando');
+    $('#estado').textContent = `Reproduciendo: ${nombre}`;
+  } else if (evento.data === YT.PlayerState.PAUSED) {
+    body.classList.remove('sonando');
+    $('#estado').textContent = `En pausa: ${nombre}`;
+  } else if (evento.data === YT.PlayerState.ENDED) {
+    body.classList.remove('sonando');
+    elegir((activa + 1) % CONTENIDO.canciones.length);
+  }
+}
+
+function alFallarVideo() {
+  body.classList.remove('sonando');
+  $('#estado').textContent = 'No se pudo cargar la canción';
+  const fila = document.querySelectorAll('#playlist li')[activa];
+  if (fila) fila.classList.add('error');
+}
 
 // ---- panel (tarea 6) ----
 
