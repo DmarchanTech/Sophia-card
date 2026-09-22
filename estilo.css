@@ -34,6 +34,7 @@ body:not(.sobre) #pantalla-sobre { display: none; }
 #sobre { background: none; border: 0; padding: 0; cursor: pointer; min-width: 44px; min-height: 44px; }
 #sobre img { width: min(60vw, 260px); animation: mecer 3s ease-in-out infinite; }
 @keyframes mecer { 50% { transform: rotate(-2deg) translateY(-4px); } }
+@media (prefers-reduced-motion: reduce) { #sobre img { animation: none; } }
 .pista { font-family: var(--serif); font-style: italic; color: var(--tinta-suave); margin: 0; }
 
 #pantalla-bloom { z-index: 20; display: none; background: var(--crema); overflow: hidden; }
@@ -178,7 +179,7 @@ body.sonando #playlist li.activa button::before { content: '❚❚'; }
 }
 
 /* ---------- ramo ---------- */
-.ramo { position: relative; width: 140px; height: 180px; margin: 8px auto 0; }
+.ramo { position: relative; width: 140px; height: 180px; margin: 8px auto 0; isolation: isolate; }
 .ramo img { position: absolute; width: 70px; top: 0; }
 .ramo img:nth-child(1) { left: 0; }
 .ramo img:nth-child(2) { left: 35px; top: -14px; z-index: 2; }
@@ -187,6 +188,7 @@ body.sonando #playlist li.activa button::before { content: '❚❚'; }
   position: absolute; left: 40px; top: 60px; width: 60px; height: 120px;
   background: linear-gradient(160deg, #e9d7bd, #c9b18e);
   clip-path: polygon(0 0, 100% 0, 60% 100%, 40% 100%);
+  z-index: -1;
 }
 
 /* ---------- panel ---------- */

@@ -16,8 +16,17 @@ Cada archivo tiene su origen y licencia en `img/FUENTES.md`.
 
 ## Probar
 
-- Abrir `http://localhost/sophia/` (XAMPP).
-- Test: `npx playwright test` (necesita `npm i` una vez).
+- `npx playwright test` (necesita `npm i` una vez) levanta solo su propio
+  servidor (`python -m http.server 4321`; hace falta `python` en el PATH) —
+  no depende de XAMPP.
+- Para verlo a mano: `http://localhost/sophia/` (XAMPP) o cualquier servidor
+  estático.
+
+## Publicar
+
+GitHub Pages desde `main` / raíz. URL: `https://dmarchantech.github.io/Sophia-card/`.
+Antes de mandar el link: poner el nombre real en `CONTENIDO.de` y revisar la
+carta.
 
 ## Avances
 
@@ -27,10 +36,12 @@ Cada archivo tiene su origen y licencia en `img/FUENTES.md`.
 - 22 sep 2026 — Casete en CSS con carretes que giran con `body.sonando`; layout móvil y escritorio.
 - 22 sep 2026 — Playlist con YouTube IFrame API: play/pausa, siguiente al terminar, avisos sin red o video bloqueado.
 - 22 sep 2026 — Panel "Hay algo más" con ramo y reproductor; cerrado sigue sonando.
+- 22 sep 2026 — Tanda final: imágenes a WebP (<1,5 MB), precarga, fallback de reproducción móvil, test sin XAMPP, Esc cierra el panel.
 
 ## Pendientes
 
-- Imágenes: ningún fallback CSS (hay `cuarto.jpg` y `sobre.png`). Las gerberas 01 y 02 son recortes fotográficos, no acuarela; si aparece una gerbera pintada con licencia libre, cambiarlas.
+- Imágenes: ningún fallback CSS (hay `cuarto.webp` y `sobre.webp`). Las gerberas 01 y 02 son recortes fotográficos, no acuarela; si aparece una gerbera pintada con licencia libre, cambiarlas.
 - Botón de cierre / "Finish mixtape" (no va por ahora).
 - Nota de audio grabada.
-- Compartir por link corto / hosting.
+- Link corto.
+- Probar en iPhone y en el navegador de WhatsApp (reproducción y bloom en primera carga).

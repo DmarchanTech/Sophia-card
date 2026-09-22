@@ -29,14 +29,12 @@ test('al tocar el sobre brota el ramo y llega a la carta', async ({ page }) => {
   await expect(page.locator('#pantalla-carta')).toBeVisible();
 });
 
-test('con reduced-motion se salta el bloom', async ({ browser }) => {
-  const contexto = await browser.newContext({ reducedMotion: 'reduce' });
-  const page = await contexto.newPage();
-  await page.goto('http://localhost/sophia/');
+test('con reduced-motion se salta el bloom', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/');
   await page.click('#sobre');
   await expect(page.locator('body')).toHaveClass(/carta/, { timeout: 2000 });
   await expect(page.locator('#pantalla-bloom .flor')).toHaveCount(0);
-  await contexto.close();
 });
 
 test('los carretes del casete giran solo cuando suena', async ({ page }) => {

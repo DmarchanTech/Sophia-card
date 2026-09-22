@@ -17,9 +17,9 @@ const CONTENIDO = {
 /* ====================================================== */
 
 const FLORES = [
-  'img/flor-01.png', 'img/flor-02.png', 'img/flor-03.png', 'img/flor-04.png',
-  'img/flor-05.png', 'img/flor-06.png', 'img/flor-07.png', 'img/flor-08.png',
-  'img/flor-09.png', 'img/flor-10.png', 'img/flor-11.png',
+  'img/flor-01.webp', 'img/flor-02.webp', 'img/flor-03.webp', 'img/flor-04.webp',
+  'img/flor-05.webp', 'img/flor-06.webp', 'img/flor-07.webp', 'img/flor-08.webp',
+  'img/flor-09.webp', 'img/flor-10.webp', 'img/flor-11.webp',
 ];
 
 const $ = (sel) => document.querySelector(sel);
@@ -30,7 +30,7 @@ function pintarCarta() {
   $('#de').textContent = `De ${CONTENIDO.de}`;
   $('#titulo').textContent = CONTENIDO.titulo;
   $('#casete-titulo').textContent = CONTENIDO.titulo;
-  $('#panel-de').textContent = `· De ${CONTENIDO.de}`;
+  $('#panel-de').textContent = `De ${CONTENIDO.de}`;
   $('#firma').textContent = CONTENIDO.de;
   const nota = $('#nota');
   nota.innerHTML = '';
@@ -116,6 +116,7 @@ function mostrarCarta() {
 
 // ---- YouTube ----
 const ESPERA_YOUTUBE_MS = 8000;
+const ESPERA_REPRODUCCION_MS = 2500;
 let player = null;
 let activa = -1;
 let temporizadorYouTube = null;
@@ -165,6 +166,16 @@ function elegir(i) {
   activa = i;
   marcarActiva();
   player.loadVideoById(CONTENIDO.canciones[i].youtube);
+  setTimeout(comprobarQueSuena, ESPERA_REPRODUCCION_MS);
+}
+
+// En iOS / WebView el play por postMessage puede ignorarse: si no arranca, se pide el toque en el reproductor.
+function comprobarQueSuena() {
+  const estado = player.getPlayerState();
+  const arranco = estado === YT.PlayerState.PLAYING || estado === YT.PlayerState.BUFFERING;
+  if (arranco) return;
+  $('#estado').textContent = 'Toca ▶ en el reproductor';
+  abrirPanel(true);
 }
 
 function marcarActiva() {
@@ -175,7 +186,7 @@ function marcarActiva() {
 }
 
 function alCambiarEstado(evento) {
-  if (activa === -1) { activa = 0; marcarActiva(); }
+  if (evento.data === YT.PlayerState.PLAYING && activa === -1) { activa = 0; marcarActiva(); }
   const cancion = CONTENIDO.canciones[activa];
   const nombre = cancion ? cancion.titulo : '';
   if (evento.data === YT.PlayerState.PLAYING) {
@@ -204,6 +215,9 @@ function abrirPanel(abierto) {
 }
 $('#abrir-panel').addEventListener('click', () => abrirPanel(true));
 $('#cerrar-panel').addEventListener('click', () => abrirPanel(false));
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') abrirPanel(false); });
 
 pintarCarta();
 $('#sobre').addEventListener('click', brotar);
+// Precarga las flores mientras el sobre está en pantalla.
+FLORES.forEach((src) => { new Image().src = src; });
