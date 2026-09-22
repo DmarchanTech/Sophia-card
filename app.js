@@ -172,8 +172,9 @@ function elegir(i) {
 // En iOS / WebView el play por postMessage puede ignorarse: si no arranca, se pide el toque en el reproductor.
 function comprobarQueSuena() {
   const estado = player.getPlayerState();
+  const filaConError = document.querySelector('#playlist li.activa.error');
   const arranco = estado === YT.PlayerState.PLAYING || estado === YT.PlayerState.BUFFERING;
-  if (arranco) return;
+  if (arranco || estado === YT.PlayerState.PAUSED || filaConError) return;
   $('#estado').textContent = 'Toca ▶ en el reproductor';
   abrirPanel(true);
 }

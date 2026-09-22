@@ -37,10 +37,12 @@ carta.
 - 22 sep 2026 — Playlist con YouTube IFrame API: play/pausa, siguiente al terminar, avisos sin red o video bloqueado.
 - 22 sep 2026 — Panel "Hay algo más" con ramo y reproductor; cerrado sigue sonando.
 - 22 sep 2026 — Tanda final: imágenes a WebP (<1,5 MB), precarga, fallback de reproducción móvil, test sin XAMPP, Esc cierra el panel.
+- 22 sep 2026 — Recorrido completo verificado en móvil y escritorio.
 
 ## Pendientes
 
 - Imágenes: ningún fallback CSS (hay `cuarto.webp` y `sobre.webp`). Las gerberas 01 y 02 son recortes fotográficos, no acuarela; si aparece una gerbera pintada con licencia libre, cambiarlas.
+- El panel no usa un `ramo.png` propio (el spec lo pedía como imagen única): se arma con las 3 primeras `flor-0N.webp` superpuestas más un cono en CSS (`clip-path`), para no salir a buscar y licenciar una imagen de ramo aparte. Si aparece un PNG de ramo con licencia libre, se puede cambiar por una sola imagen.
 - Botón de cierre / "Finish mixtape" (no va por ahora).
 - Nota de audio grabada.
 - Link corto.
