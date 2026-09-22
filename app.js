@@ -116,7 +116,7 @@ function mostrarCarta() {
 
 // ---- YouTube ----
 const ESPERA_YOUTUBE_MS = 8000;
-const ESPERA_REPRODUCCION_MS = 2500;
+const ESPERA_REPRODUCCION_MS = 4000;
 let player = null;
 let activa = -1;
 let temporizadorYouTube = null;
@@ -169,13 +169,15 @@ function elegir(i) {
   setTimeout(comprobarQueSuena, ESPERA_REPRODUCCION_MS);
 }
 
-// En iOS / WebView el play por postMessage puede ignorarse: si no arranca, se pide el toque en el reproductor.
+// En iOS / WebView el play por postMessage puede ignorarse, y YouTube puede meter un anuncio
+// antes (estado UNSTARTED durante varios segundos): si no arranca, se enseña el reproductor
+// sin afirmar que falló; al llegar PLAYING el estado se corrige solo.
 function comprobarQueSuena() {
   const estado = player.getPlayerState();
   const filaConError = document.querySelector('#playlist li.activa.error');
   const arranco = estado === YT.PlayerState.PLAYING || estado === YT.PlayerState.BUFFERING;
   if (arranco || estado === YT.PlayerState.PAUSED || filaConError) return;
-  $('#estado').textContent = 'Toca ▶ en el reproductor';
+  $('#estado').textContent = 'Cargando… si no suena, toca ▶ en el reproductor';
   abrirPanel(true);
 }
 

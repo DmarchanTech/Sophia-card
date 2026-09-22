@@ -47,3 +47,4 @@ carta.
 - Nota de audio grabada.
 - Link corto.
 - Probar en iPhone y en el navegador de WhatsApp (reproducción y bloom en primera carga).
+- YouTube mete anuncios antes de algunas canciones (visto en la URL pública el 22 sep 2026): la música tarda unos segundos y, mientras, se abre el panel con "Cargando… si no suena, toca ▶". No se puede quitar desde el código; se quitaría con vídeos sin anuncios o con mp3 locales.
