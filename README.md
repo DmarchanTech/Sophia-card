@@ -26,6 +26,7 @@ Cada archivo tiene su origen y licencia en `img/FUENTES.md`.
 - 22 sep 2026 — Bloom: 22 flores con variables CSS, fundido a la carta, reduced-motion.
 - 22 sep 2026 — Casete en CSS con carretes que giran con `body.sonando`; layout móvil y escritorio.
 - 22 sep 2026 — Playlist con YouTube IFrame API: play/pausa, siguiente al terminar, avisos sin red o video bloqueado.
+- 22 sep 2026 — Panel "Hay algo más" con ramo y reproductor; cerrado sigue sonando.
 
 ## Pendientes
 

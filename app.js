@@ -134,6 +134,7 @@ function cargarYouTube() {
 
 window.onYouTubeIframeAPIReady = function () {
   clearTimeout(temporizadorYouTube);
+  $('#playlist').classList.remove('sin-musica');
   player = new YT.Player('yt', {
     videoId: CONTENIDO.canciones[0].youtube,
     playerVars: { rel: 0, playsinline: 1 },
@@ -174,6 +175,7 @@ function marcarActiva() {
 }
 
 function alCambiarEstado(evento) {
+  if (activa === -1) { activa = 0; marcarActiva(); }
   const cancion = CONTENIDO.canciones[activa];
   const nombre = cancion ? cancion.titulo : '';
   if (evento.data === YT.PlayerState.PLAYING) {
@@ -195,7 +197,13 @@ function alFallarVideo() {
   if (fila) fila.classList.add('error');
 }
 
-// ---- panel (tarea 6) ----
+// ---- panel ----
+function abrirPanel(abierto) {
+  body.classList.toggle('panel-abierto', abierto);
+  $('#panel').setAttribute('aria-hidden', String(!abierto));
+}
+$('#abrir-panel').addEventListener('click', () => abrirPanel(true));
+$('#cerrar-panel').addEventListener('click', () => abrirPanel(false));
 
 pintarCarta();
 $('#sobre').addEventListener('click', brotar);

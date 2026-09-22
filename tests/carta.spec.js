@@ -72,3 +72,17 @@ test('sin la API de YouTube la playlist avisa', async ({ page }) => {
   await expect(page.locator('#estado')).toHaveText('Sin conexión para la música', { timeout: 12000 });
   await expect(page.locator('#playlist')).toHaveClass(/sin-musica/);
 });
+
+test('el panel se abre, muestra el ramo y el reproductor, y al cerrar no lo destruye', async ({ page }) => {
+  await page.goto('/');
+  await page.evaluate(() => document.body.classList.replace('sobre', 'carta'));
+  await expect(page.locator('#panel')).toBeHidden();
+  await page.click('#abrir-panel');
+  await expect(page.locator('#panel')).toBeVisible();
+  await expect(page.locator('#panel .ramo')).toBeVisible();
+  await expect(page.locator('#panel #yt')).toBeAttached();
+  await page.click('#cerrar-panel');
+  await expect(page.locator('#panel')).toBeHidden();
+  await expect(page.locator('#panel #yt')).toBeAttached();
+  expect(await page.locator('#panel').evaluate((el) => getComputedStyle(el).display)).not.toBe('none');
+});
