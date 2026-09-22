@@ -38,3 +38,13 @@ test('con reduced-motion se salta el bloom', async ({ browser }) => {
   await expect(page.locator('#pantalla-bloom .flor')).toHaveCount(0);
   await contexto.close();
 });
+
+test('los carretes del casete giran solo cuando suena', async ({ page }) => {
+  await page.goto('/');
+  await page.evaluate(() => document.body.classList.replace('sobre', 'carta'));
+  const estado = () => page.locator('.carrete').first()
+    .evaluate((el) => getComputedStyle(el).animationPlayState);
+  expect(await estado()).toBe('paused');
+  await page.evaluate(() => document.body.classList.add('sonando'));
+  expect(await estado()).toBe('running');
+});
