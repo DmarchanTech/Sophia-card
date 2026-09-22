@@ -119,6 +119,8 @@ const ESPERA_YOUTUBE_MS = 8000;
 let player = null;
 let activa = -1;
 let temporizadorYouTube = null;
+let playerListo = false;
+let pendiente = null;
 
 function cargarYouTube() {
   if (document.querySelector('script[src*="iframe_api"]')) return;
@@ -136,7 +138,11 @@ window.onYouTubeIframeAPIReady = function () {
     videoId: CONTENIDO.canciones[0].youtube,
     playerVars: { rel: 0, playsinline: 1 },
     events: {
-      onReady: () => { $('#estado').textContent = 'Toca una canción'; },
+      onReady: () => {
+        playerListo = true;
+        $('#estado').textContent = 'Toca una canción';
+        if (pendiente !== null) { const i = pendiente; pendiente = null; elegir(i); }
+      },
       onStateChange: alCambiarEstado,
       onError: alFallarVideo,
     },
@@ -149,7 +155,7 @@ function sinMusica() {
 }
 
 function elegir(i) {
-  if (!player) return;
+  if (!player || !playerListo) { pendiente = i; $('#estado').textContent = 'Cargando la música…'; return; }
   if (i === activa) {
     const sonando = player.getPlayerState() === YT.PlayerState.PLAYING;
     if (sonando) player.pauseVideo(); else player.playVideo();
