@@ -12,7 +12,7 @@ const CONTENIDO = {
     'Que incluso en un día malo sepas que sigo aquí. Que puedas hablarme aunque te cueste. Que puedas decirme que algo te dolió sin miedo a que por eso me vaya. Y que cuando sea yo el que está molesto, aprenda a decírtelo sin castigarte con mi distancia.',
     'Porque te amo, Sophia. Y justamente porque te amo, no quiero que conozcas solo al David que anda feliz, que te hace reír o al que todo le parece perfecto. Quiero que conozcas también al que aprende a quererte bien en los días difíciles.',
     'Hay tantas cosas de ti que admiro que a veces siento que no te las digo suficiente.',
-    'Admiro esa cabeza tuya que nunca deja de preguntarse el porqué de todo. Admiro lo curiosa que eres, lo inteligente que eres, y esa forma tan tuya de pasar de una conversación absurda a algo profundo en cuestión de segundos. Como aquella vez que […].',
+    'Admiro esa cabeza tuya que nunca deja de preguntarse el porqué de todo. Admiro lo curiosa que eres, lo inteligente que eres, y esa forma tan tuya de pasar de una conversación absurda a algo profundo en cuestión de segundos.',
     'Admiro tu manera de sentir, incluso cuando sientes demasiado. Admiro que seas tan independiente, que quieras poder con todo, y que aun así guardes esa parte tan bonita que también quiere que la cuiden.',
     'Me gustan tus berrinches, tus ocurrencias, tus preguntas, tu manera de joderme, tus historias, tus contradicciones, y hasta esas cosas tuyas que probablemente tú misma quisieras cambiar. Yo no cambiaría ninguna.',
     'Me gusta conocerte.',
