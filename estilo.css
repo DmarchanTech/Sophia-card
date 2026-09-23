@@ -64,10 +64,10 @@ body.bloom #pantalla-bloom { display: block; }
   margin: calc(var(--tam) / -2) 0 0 calc(var(--tam) / -2);
   transform: rotate(var(--giro-inicio, 0deg)) scale(0);
   opacity: 0;
-  filter: drop-shadow(0 4px 12px rgba(120, 35, 65, 0.16));
+  /* Sin drop-shadow ni will-change a propósito: con 104 flores animadas el filtro
+     bajaba el bloom de 50 a 22 fps (CPU x4) y will-change creaba 104 capas. */
   animation: florFlorecer var(--duracion, 520ms) cubic-bezier(0.16, 1, 0.3, 1) var(--retraso, 0ms) forwards;
   pointer-events: none;
-  will-change: transform, opacity;
 }
 
 @keyframes florFlorecer {

@@ -11,14 +11,26 @@ video, lo que va después de `v=` en la URL).
 
 ## Imágenes
 
-Van en `img/`. La lista de flores del bloom está en `FLORES` (`app.js`).
-Cada archivo tiene su origen y licencia en `img/FUENTES.md`.
+Van en `img/` (≈ 0,9 MB en total; todo WebP ≤ 700 px, el cuarto ≤ 1400 px).
+La lista de flores del bloom está en `FLORES` (`app.js`). Cada archivo tiene
+su origen y licencia en `img/FUENTES.md`; lo que no esté en esa tabla no debe
+estar en la carpeta. Para meter una imagen nueva: WebP con transparencia,
+≤ 700 px de lado, fila en `FUENTES.md`, y subir el `?v=` de `estilo.css` /
+`app.js` en `index.html` si cambian esos archivos.
+
+## Rendimiento del bloom
+
+Son 104 `<img>` animadas con `transform` y `opacity`. **No añadir `filter`
+(drop-shadow, blur) ni `will-change` a `.flor`**: medido el 23 sep 2026 con
+CPU ×4 (≈ teléfono medio), el drop-shadow bajaba el bloom de 50 a 22 fps y el
+peor frame subía de 50 a 233 ms. Las flores se precargan mientras el sobre
+está en pantalla y se decodifican en segundo plano (`decoding = 'async'`).
 
 ## Probar
 
 - `npx playwright test` (necesita `npm i` una vez) levanta solo su propio
-  servidor (`python -m http.server 4321`; hace falta `python` en el PATH) —
-  no depende de XAMPP.
+  servidor (`npx serve -l 4321 .`, que `npx` descarga la primera vez) — no
+  depende de XAMPP.
 - Para verlo a mano: `http://localhost/sophia/` (XAMPP) o cualquier servidor
   estático.
 
@@ -38,11 +50,12 @@ carta.
 - 22 sep 2026 — Panel "Hay algo más" con ramo y reproductor; cerrado sigue sonando.
 - 22 sep 2026 — Tanda final: imágenes a WebP (<1,5 MB), precarga, fallback de reproducción móvil, test sin XAMPP, Esc cierra el panel.
 - 22 sep 2026 — Recorrido completo verificado en móvil y escritorio.
+- 22 sep 2026 — Personalización (David): nombre, carta y 6 canciones reales; bloom de 104 flores en espiral a pantalla llena; casete botánico vintage; ramo con lazo en el panel; tests leen `CONTENIDO`.
+- 23 sep 2026 — Limpieza de `img/` (8 MB → 0,9 MB: fuera huérfanos y PNG, todo WebP ≤ 700 px), bloom a 50 fps con CPU ×4 (sin drop-shadow ni will-change, decodificación async), `FUENTES.md` y README al día.
 
 ## Pendientes
 
-- Imágenes: ningún fallback CSS (hay `cuarto.webp` y `sobre.webp`). Las gerberas 01 y 02 son recortes fotográficos, no acuarela; si aparece una gerbera pintada con licencia libre, cambiarlas.
-- El panel no usa un `ramo.png` propio (el spec lo pedía como imagen única): se arma con las 3 primeras `flor-0N.webp` superpuestas más un cono en CSS (`clip-path`), para no salir a buscar y licenciar una imagen de ramo aparte. Si aparece un PNG de ramo con licencia libre, se puede cambiar por una sola imagen.
+- Imágenes: las gerberas 01 y 02 son recortes fotográficos, no acuarela; si aparece una gerbera pintada con licencia libre, cambiarlas.
 - Botón de cierre / "Finish mixtape" (no va por ahora).
 - Nota de audio grabada.
 - Link corto.

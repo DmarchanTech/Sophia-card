@@ -45,8 +45,8 @@ const CONTENIDO = {
 /* ====================================================== */
 
 const FLORES = [
-  // Margaritas (margarita.png seleccionada por el usuario y variante acuarela)
-  'img/margarita.png',
+  // Margaritas (margarita.webp seleccionada por el usuario y variante acuarela)
+  'img/margarita.webp',
   'img/flor-margarita-acuarela-02.webp',
   // Gerberas (cabezas acuarela: rosa, blanco-rosa, salmón)
   'img/flor-01.webp',
@@ -128,6 +128,7 @@ function brotar() {
 
     const florSrc = FLORES[i % FLORES.length];
     img.src = florSrc;
+    img.decoding = 'async'; // no bloquear el hilo principal decodificando 104 imágenes
 
     // Cálculo concéntrico en sentido horario (agujas del reloj) partiendo desde la parte superior:
     // 1. Vuelta 1 (t < 0.36): Marco exterior perimetral completo (bordes superior, derecho, inferior, izquierdo)
