@@ -25,45 +25,126 @@ body {
 /* ---------- capas ---------- */
 .capa { position: fixed; inset: 0; }
 
+/* ---------- micro-interacción táctil ---------- */
+.presionando {
+  transform: scale(0.965) !important;
+  transition: transform 0.14s cubic-bezier(0.2, 0.9, 0.3, 1) !important;
+}
+
 #pantalla-sobre {
   z-index: 30;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   gap: 24px;
+  cursor: pointer;
+  user-select: none;
 }
 body:not(.sobre) #pantalla-sobre { display: none; }
-#sobre { background: none; border: 0; padding: 0; cursor: pointer; min-width: 44px; min-height: 44px; }
-#sobre img { width: min(60vw, 260px); animation: mecer 3s ease-in-out infinite; }
+#sobre {
+  background: none; border: 0; padding: 0; cursor: pointer; min-width: 44px; min-height: 44px;
+  transition: transform .2s cubic-bezier(0.2, 0.9, 0.3, 1);
+}
+#sobre img {
+  width: min(60vw, 260px);
+  animation: mecer 3s ease-in-out infinite;
+  transition: transform .25s ease;
+}
+#pantalla-sobre:hover #sobre img {
+  transform: scale(1.04);
+}
 @keyframes mecer { 50% { transform: rotate(-2deg) translateY(-4px); } }
 @media (prefers-reduced-motion: reduce) { #sobre img { animation: none; } }
 .pista { font-family: var(--serif); font-style: italic; color: var(--tinta-suave); margin: 0; }
 
-#pantalla-bloom { z-index: 20; display: none; background: var(--crema); overflow: hidden; }
+/* ---------- bloom espiral desde el centro ---------- */
+#pantalla-bloom {
+  z-index: 25;
+  display: none;
+  /* Fondo crema cálido igual que la primera pantalla, para un fade suave */
+  background: #f0e6d8;
+  overflow: hidden;
+  position: fixed;
+  inset: 0;
+}
 body.bloom #pantalla-bloom { display: block; }
 
-/* ---------- bloom ---------- */
+/* Todas las flores parten exactamente del centro */
 .flor {
-  position: absolute; left: 50%; top: 50%;
-  width: var(--tam); height: var(--tam); object-fit: contain;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--tam);
+  height: var(--tam);
+  object-fit: cover;        /* llenar sin huecos blancos */
+  border-radius: 50%;       /* silueta circular → efecto peonía */
   margin: calc(var(--tam) / -2) 0 0 calc(var(--tam) / -2);
-  transform: scale(0); opacity: 0;
-  filter: drop-shadow(0 6px 12px rgba(120,60,80,.18));
-  animation: brotar 1.2s cubic-bezier(.2,.9,.3,1.15) var(--retraso) forwards;
+  opacity: 0;
   pointer-events: none;
+  will-change: transform, opacity;
+  /* Cada flor tiene su propia duración y retraso inyectados por JS */
+  animation:
+    espiral-salir  var(--duracion, 1.8s) cubic-bezier(0.22, 1, 0.36, 1) var(--retraso, 0ms) forwards,
+    girar-propio   var(--duracion, 1.8s) linear                          var(--retraso, 0ms) forwards;
 }
-@keyframes brotar {
-  from {
-    transform: rotate(var(--angulo)) translateY(0) rotate(calc(-1 * var(--angulo))) scale(0);
+
+/* Profundidad visual: capas de z-index y sombras */
+.flor.capa-fondo  { z-index: 1; filter: drop-shadow(0 4px 14px rgba(180,80,100,.18)); }
+.flor.capa-media  { z-index: 5; filter: drop-shadow(0 8px 20px rgba(160,60,90,.28)); }
+.flor.capa-frente { z-index: 9; filter: drop-shadow(0 14px 28px rgba(140,50,80,.36)); }
+
+/*
+  espiral-salir:
+  La flor nace en el centro (escala mínima), rota alrededor del eje de la pantalla
+  y al mismo tiempo se traslada radialmente hasta su posición final, creciendo en tamaño.
+  El truco: rotate(angulo) translateY(-distancia) es la trayectoria en espiral.
+  La flor también gira sobre sí misma (var(--giro-propio)) para el efecto vivo.
+*/
+@keyframes espiral-salir {
+  0% {
+    transform:
+      rotate(var(--angulo-inicio))
+      translateY(0px)
+      rotate(calc(-1 * var(--angulo-inicio)))
+      scale(0.08);
     opacity: 0;
   }
-  40% { opacity: 1; }
-  to {
-    transform: rotate(var(--angulo)) translateY(calc(-1 * var(--distancia)))
-               rotate(calc(-1 * var(--angulo) + var(--giro))) scale(1);
+  12% {
+    opacity: 0.9;
+  }
+  75% {
+    transform:
+      rotate(calc(var(--angulo-inicio) + var(--giro-espiral) * 0.75))
+      translateY(calc(-1 * var(--distancia) * 1.05))
+      rotate(calc(-1 * (var(--angulo-inicio) + var(--giro-espiral) * 0.75) + var(--giro-propio) * 0.75))
+      scale(calc(var(--escala-final) * 1.06));
+    opacity: 1;
+  }
+  100% {
+    transform:
+      rotate(calc(var(--angulo-inicio) + var(--giro-espiral)))
+      translateY(calc(-1 * var(--distancia)))
+      rotate(calc(-1 * (var(--angulo-inicio) + var(--giro-espiral)) + var(--giro-propio)))
+      scale(var(--escala-final));
     opacity: 1;
   }
 }
-#pantalla-bloom { transition: transform .9s ease-in, opacity .9s ease-in; }
-#pantalla-bloom.fundir { transform: scale(1.6); opacity: 0; }
+
+/* Giro propio de cada pétalo (para que no parezca estático) */
+@keyframes girar-propio {
+  from { /* ya incluido en espiral-salir, esta animación es decorativa */ }
+  to   { }
+}
+
+/* Al fundir: la «bola» de flores crece ligeramente y desvanece hacia blanco */
+#pantalla-bloom {
+  transition:
+    transform   1.2s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity     1.1s ease-in,
+    background  1.1s ease-in;
+}
+#pantalla-bloom.fundir {
+  transform:  scale(1.18);
+  opacity:    0;
+}
 
 #pantalla-carta {
   z-index: 10;
@@ -82,12 +163,97 @@ body.carta #pantalla-carta { opacity: 1; visibility: visible; transition-delay: 
 
 /* ---------- tarjeta ---------- */
 .tarjeta {
+  position: relative;
   background: var(--crema-claro);
   margin: 24px 16px 96px;
   padding: 24px 20px;
-  border-radius: 6px;
+  border-radius: 8px;
   border: 1px solid rgba(0,0,0,.06);
   box-shadow: 0 20px 50px rgba(80,40,50,.18);
+  cursor: pointer;
+  user-select: none;
+  transition: transform .22s cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow .22s ease;
+}
+.tarjeta:hover {
+  box-shadow: 0 24px 60px rgba(80,40,50,.24);
+}
+.tarjeta .cabecera,
+.tarjeta h1,
+.tarjeta .casete,
+.tarjeta .dos-columnas {
+  position: relative;
+  z-index: 3;
+}
+.flores-tarjeta {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  overflow: visible;
+}
+.flor-tarjeta {
+  position: absolute;
+  width: var(--tam);
+  height: var(--tam);
+  object-fit: contain;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(var(--x-origen), var(--y-origen)) rotate(var(--rot-inicio)) scale(0.1);
+  will-change: transform, opacity;
+  animation: brotarTarjeta var(--duracion, 0.85s) cubic-bezier(0.16, 1, 0.3, 1.05) var(--retraso, 0s) forwards;
+}
+.flor-tarjeta.capa-fondo {
+  z-index: 1;
+  filter: blur(1.2px) drop-shadow(0 4px 10px rgba(120,60,80,.15));
+}
+.flor-tarjeta.capa-media {
+  z-index: 2;
+  filter: drop-shadow(0 8px 18px rgba(120,60,80,.22));
+}
+.flor-tarjeta.capa-frente {
+  z-index: 4;
+  filter: drop-shadow(0 12px 24px rgba(120,60,80,.28));
+}
+.flor-tarjeta.retraer {
+  animation: retraerTarjeta 0.5s cubic-bezier(0.4, 0, 0.2, 1) var(--retraso, 0s) forwards !important;
+}
+
+@keyframes brotarTarjeta {
+  0% {
+    transform: translate(var(--x-origen), var(--y-origen)) rotate(var(--rot-inicio)) scale(0.1);
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.95;
+  }
+  80% {
+    transform: translate(calc(var(--x-dest) * 1.03), calc(var(--y-dest) * 1.03)) rotate(var(--rot-final)) scale(calc(var(--escala, 1) * 1.04));
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--x-dest), var(--y-dest)) rotate(var(--rot-final)) scale(var(--escala, 1));
+    opacity: 1;
+  }
+}
+
+@keyframes retraerTarjeta {
+  0% {
+    transform: translate(var(--x-dest), var(--y-dest)) rotate(var(--rot-final)) scale(var(--escala, 1));
+    opacity: 1;
+  }
+  40% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(var(--x-origen), var(--y-origen)) rotate(var(--rot-inicio)) scale(0.1);
+    opacity: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .flor-tarjeta {
+    --tam: clamp(48px, 14vmin, 80px) !important;
+  }
 }
 .cabecera {
   margin: 0 0 4px;
@@ -179,16 +345,28 @@ body.sonando #playlist li.activa button::before { content: '❚❚'; }
 }
 
 /* ---------- ramo ---------- */
-.ramo { position: relative; width: 140px; height: 180px; margin: 8px auto 0; isolation: isolate; }
-.ramo img { position: absolute; width: 70px; top: 0; }
-.ramo img:nth-child(1) { left: 0; }
-.ramo img:nth-child(2) { left: 35px; top: -14px; z-index: 2; }
-.ramo img:nth-child(3) { left: 70px; }
-.cono {
-  position: absolute; left: 40px; top: 60px; width: 60px; height: 120px;
-  background: linear-gradient(160deg, #e9d7bd, #c9b18e);
-  clip-path: polygon(0 0, 100% 0, 60% 100%, 40% 100%);
-  z-index: -1;
+.ramo {
+  position: relative;
+  width: 170px;
+  height: 180px;
+  margin: 12px auto 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 10px 22px rgba(0, 0, 0, .4));
+}
+.ramo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  animation: flotarRamo 4s ease-in-out infinite alternate;
+}
+@keyframes flotarRamo {
+  0% { transform: translateY(0) rotate(0deg); }
+  100% { transform: translateY(-4px) rotate(1deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ramo-img { animation: none; }
 }
 
 /* ---------- panel ---------- */
@@ -207,11 +385,28 @@ body.panel-abierto .panel {
   position: absolute; top: 12px; right: 12px;
   width: 36px; height: 36px; border-radius: 50%; border: 0;
   background: rgba(255,255,255,.12); color: #fff; font-size: 22px; cursor: pointer;
+  transition: background .2s ease;
+}
+#cerrar-panel:hover {
+  background: rgba(255,255,255,.25);
 }
 .panel-cab {
-  font-family: var(--serif); font-size: 18px; text-align: center; margin: 8px 0 0;
+  font-family: var(--serif);
+  font-size: 20px;
+  text-align: center;
+  margin: 8px 0 12px;
+  line-height: 1.35;
 }
-.panel-cab small { display: block; font-family: var(--sans); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; opacity: .7; }
+.panel-cab small {
+  display: block;
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--rosa);
+  margin-top: 5px;
+  opacity: .95;
+}
 .yt-marco {
   margin-top: 16px; border-radius: 10px; overflow: hidden;
   aspect-ratio: 16 / 9; background: #000;
