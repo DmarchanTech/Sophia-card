@@ -2,7 +2,7 @@
 const CONTENIDO = {
   para: 'Sophia',
   de: 'David',
-  titulo: 'Canciones que están en mi mente desde que pienso en tí',
+  titulo: 'Canciones que están en mi mente desde que pienso en ti',
   carta: [
     'He estado pensando bastante en lo que pasó y hay algo que quiero que tengas muy claro.',
     'No quiero que un momento incómodo entre nosotros te haga sentir que tienes que caminar con cuidado conmigo, ni mucho menos que cuando las cosas no estén perfectas vas a perderme o vas a dejar de tener un lugar seguro en mí.',
@@ -45,6 +45,9 @@ const CONTENIDO = {
 };
 /* ====================================================== */
 
+// Un párrafo de una sola frase corta se pinta como «latido» (ver #nota p.breve).
+const LARGO_FRASE_BREVE = 60;
+
 const FLORES = [
   // Margarita (seleccionada por el usuario)
   'img/margarita.webp',
@@ -76,6 +79,7 @@ function pintarCarta() {
   CONTENIDO.carta.forEach((parrafo) => {
     const p = document.createElement('p');
     p.textContent = parrafo;
+    if (parrafo.length <= LARGO_FRASE_BREVE) p.classList.add('breve');
     nota.appendChild(p);
   });
   pintarPlaylist();

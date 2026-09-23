@@ -528,15 +528,30 @@ body.sonando #playlist li.activa button::before { content: '❚❚'; }
 
 /* ---------- nota ---------- */
 .nota {
-  background: var(--nota); padding: 16px 18px; margin-top: 20px;
-  font-family: var(--serif); font-style: italic; font-size: 15px; line-height: 1.55;
+  background: var(--nota); padding: 22px 22px 26px; margin-top: 20px;
+  font-family: var(--serif); font-size: 17px; line-height: 1.7; color: var(--tinta);
+  text-wrap: pretty;
 }
 .nota-cab {
   font-family: var(--sans); font-style: normal; font-size: 10px; letter-spacing: .18em;
-  text-transform: uppercase; color: var(--tinta-suave); margin: 0 0 8px;
+  text-transform: uppercase; color: var(--tinta-suave); margin: 0 0 14px;
 }
-.nota p { margin: 0 0 12px; }
-.firma { margin: 0; }
+.nota p { margin: 0 0 1em; }
+/* La primera letra de la carta, como una carta de papel. */
+#nota p:first-child::first-letter {
+  float: left; font-size: 3.1em; line-height: .85; padding: 4px 8px 0 0; color: var(--salvia-oscuro);
+}
+/* Las frases sueltas de una línea respiran aparte: son los latidos de la carta. */
+#nota p.breve {
+  font-style: italic; font-size: 1.12em; color: var(--salvia-oscuro);
+  margin: 1.4em 0; padding-left: 14px; border-left: 2px solid var(--rosa);
+}
+#nota p.breve + p.breve { margin-top: -0.9em; }
+.firma {
+  margin: 28px 0 0; text-align: right; font-style: italic; font-size: 1.35em;
+  color: var(--salvia-oscuro);
+}
+.firma::before { content: '— '; }
 
 /* ---------- botón panel ---------- */
 #abrir-panel {
@@ -612,11 +627,11 @@ body.panel-abierto .panel {
 
 /* ---------- escritorio ---------- */
 @media (min-width: 900px) {
-  .tarjeta { width: 640px; margin: 32px auto 32px; padding: 32px 36px; }
-  .dos-columnas { display: grid; grid-template-columns: 230px 1fr; gap: 28px; align-items: start; }
+  .tarjeta { width: 780px; margin: 32px auto 32px; padding: 36px 40px; }
+  .dos-columnas { display: grid; grid-template-columns: 230px 1fr; gap: 36px; align-items: start; }
   .dos-columnas > div:first-child {
     position: sticky;
     top: 24px;
   }
-  .nota { margin-top: 0; border-radius: 4px; }
+  .nota { margin-top: 0; border-radius: 4px; padding: 30px 34px 34px; }
 }
