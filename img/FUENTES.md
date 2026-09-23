@@ -15,8 +15,6 @@ reescalaron a WebP ≤ 700 px. Todo lo que no está en esta tabla se borró de `
 | sobre.webp | https://pixabay.com/illustrations/envelope-letter-wax-seal-stamps-10299878/ | Pixabay Content License | BuchArena (generada con IA) | Sobre crema con sello de lacre y sello floral; convertida a WebP ≤ 700 px |
 | cuarto.webp | https://pixabay.com/illustrations/living-room-architecture-vintage-8743492/ | Pixabay Content License | Hansuan_Fabregas (generada con IA) | Cuarto vintage lavanda con encaje, luz suave; convertida a WebP ≤ 1400 px de ancho |
 | margarita.webp | — | Aportada por el autor de la carta | David | Margarita blanca; venía como `margarita.png` (800 px) y `margarita-original-4k.png`; queda solo esta a 700 px |
-| flor-margarita-acuarela-02.webp | — | Aportada por el autor de la carta | David | Margaritas en acuarela |
-| flor-gerbera-salmon.webp | — | Aportada por el autor de la carta | David | Gerbera salmón en acuarela |
 | flor-rosa-rosada.webp | — | Aportada por el autor de la carta | David | Rosa rosada en acuarela; reescalada de 1024 a 700 px |
 | flor-lavanda-espiga.webp | — | Aportada por el autor de la carta | David | Espiga de lavanda en acuarela |
 | flor-lavanda-ramillete.webp | — | Aportada por el autor de la carta | David | Ramillete de lavanda en acuarela |

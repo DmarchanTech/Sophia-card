@@ -45,13 +45,11 @@ const CONTENIDO = {
 /* ====================================================== */
 
 const FLORES = [
-  // Margaritas (margarita.webp seleccionada por el usuario y variante acuarela)
+  // Margarita (seleccionada por el usuario)
   'img/margarita.webp',
-  'img/flor-margarita-acuarela-02.webp',
-  // Gerberas (cabezas acuarela: rosa, blanco-rosa, salmón)
+  // Gerberas (rosa, blanco-rosa)
   'img/flor-01.webp',
   'img/flor-02.webp',
-  'img/flor-gerbera-salmon.webp',
   // Rosas rosadas (cabezas y flor suave acuarela)
   'img/flor-rosa-rosada.webp',
   'img/flor-09.webp',
