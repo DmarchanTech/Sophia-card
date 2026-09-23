@@ -9,7 +9,7 @@ module.exports = defineConfig({
   // termina en http://localhost/ (dashboard de XAMPP). Servimos la carpeta
   // en su propia raíz con el servidor estático de Python (ya instalado).
   webServer: {
-    command: 'python -m http.server 4321',
+    command: 'npx serve -l 4321 .',
     url: 'http://localhost:4321/',
     reuseExistingServer: !process.env.CI,
   },

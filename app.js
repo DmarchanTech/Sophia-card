@@ -1,25 +1,65 @@
 /* ===================== EDITA AQUÍ ===================== */
 const CONTENIDO = {
   para: 'Sophia',
-  de: 'Tu nombre',
-  titulo: 'Canciones para ti',
+  de: 'David',
+  titulo: 'Canciones que están en mi mente desde que pienso en tí',
   carta: [
-    'Hola,',
-    'Te hice un mixtape — de los de casete, no un CD. El lado A somos nosotros riéndonos. El lado B soy yo extrañándote ya.',
-    'Dale play.',
+    'He estado pensando bastante en lo que pasó y hay algo que quiero que tengas muy claro.',
+    'No quiero que un momento incómodo entre nosotros te haga sentir que tienes que caminar con cuidado conmigo, ni mucho menos que cuando las cosas no estén perfectas vas a perderme o vas a dejar de tener un lugar seguro en mí.',
+    'Sé que ese día no estuve como me hubiera gustado estar contigo. Estaba molesto, frustrado y dejé que ese momento hablara por mí de una manera que probablemente te hizo sentir que me alejaba, cuando en realidad lo que estaba sintiendo era simplemente que me había dolido que las cosas no salieran como las habíamos planeado.',
+    'Y quiero que entiendas algo: estar molestos, cansados, frustrados o simplemente no estar al 100% algún día no significa que dejemos de querernos. Creo que eso también forma parte de querer a alguien de verdad. Hay momentos en los que uno necesita respirar, acomodar lo que siente y volver a encontrar la calma, pero eso no significa que tengamos que soltarnos de la mano.',
+    'Yo quiero que contigo sea así.',
+    'Que incluso cuando tengamos un día malo, puedas saber que sigo aquí. Que puedas hablarme, incluso cuando te cueste. Que puedas decirme que algo te dolió sin miedo a que por eso vaya a alejarme. Y que cuando yo esté molesto también pueda aprender a decirlo sin hacerte sentir que te estoy castigando con mi distancia.',
+    'Porque te amo, Sophia. Y precisamente porque te amo, no quiero que solamente conozcas la versión de mí que está feliz, que está bromeando contigo o que todo le parece perfecto. También quiero aprender a quererte bien en los días difíciles.',
+    'Y hay tantas cosas de ti que admiro que a veces siento que no te las digo suficiente.',
+    'Admiro esa cabeza tuya que nunca deja de preguntarse el porqué de las cosas. Admiro lo curiosa que eres, lo inteligente que eres y esa forma tan tuya de poder pasar de una conversación completamente absurda a hablar de algo profundo en cuestión de segundos.',
+    'Admiro tu forma de sentir, incluso cuando a veces sientes demasiado. Admiro que seas tan independiente, que quieras poder con todo y que aun así tengas esa parte tan bonita que también quiere sentirse cuidada y querida.',
+    'Me gustan tus berrinches, tus ocurrencias, tus preguntas, tu manera de joderme, tus historias, tus contradicciones y hasta esas cosas tuyas que probablemente tú misma quisieras cambiar.',
+    'Me gusta conocerte.',
+    'Me gusta descubrir partes de ti que todavía no conocía.',
+    'Y me gusta muchísimo la persona que eres cuando bajas la guardia y simplemente eres tú.',
+    'No quiero que midas lo que siento por ti por un día malo, por una conversación incómoda o por un momento en el que alguno de los dos no supo manejar bien lo que estaba sintiendo.',
+    'Quiero que lo midas por todo lo demás.',
+    'Por todas las veces que te he escuchado, por todas las veces que he querido saber cómo estás, por todas las cosas que recuerdo de ti, por todas las conversaciones que hemos tenido y por todas las ganas que tengo de seguir construyendo cosas contigo.',
+    'Tú eres importante para mí. Muchísimo.',
+    'Y no quiero que tengas que preguntarte si puedes confiar en mí cuando las cosas se pongan difíciles.',
+    'Quiero que puedas respirar conmigo.',
+    'Que si algún día necesitas espacio, puedas tomarlo sin sentir que me estás perdiendo.',
+    'Y que si algún día soy yo quien necesita respirar, también sepas que no significa que me esté yendo.',
+    'Podemos respirar un momento, pero juntos.',
+    'De la mano.',
+    'Porque yo no quiero estar solamente para los días bonitos contigo. Quiero estar también para esos días en los que ninguno de los dos tiene demasiado que dar.',
+    'Te amo, Sophia.',
+    'Y no espero que todo entre nosotros sea perfecto.',
+    'Solo quiero que, incluso cuando no lo sea, nunca olvidemos que estamos del mismo lado.',
   ],
   canciones: [
-    { titulo: 'Perfect',   artista: 'Ed Sheeran',  youtube: '2Vv-BfVoq4g' },
-    { titulo: 'All of Me', artista: 'John Legend', youtube: '450p7goxZqg' },
-    { titulo: 'Yellow',    artista: 'Coldplay',    youtube: 'yKNxeF4KMsY' },
+    { titulo: 'The First Time',   artista: 'Damiano David',              youtube: 'CIuyuK349Lw' },
+    { titulo: 'A Thousand Years', artista: 'John Michael Howell & JVKE', youtube: 'bb8NWzm_5iE' },
+    { titulo: 'her',              artista: 'JVKE ft. Annika Wells',       youtube: 'jvBXQpuKlT8' },
+    { titulo: 'Perfect',          artista: 'Ed Sheeran',                 youtube: 'TeNFZmOlWAs' },
+    { titulo: 'Hide',             artista: 'Juice WRLD & Seezyn',         youtube: 'zFKBhNsRD6w' },
+    { titulo: 'Zombie Lady',      artista: 'Damiano David',              youtube: 'lhX0pP-vrHQ' },
   ],
 };
 /* ====================================================== */
 
 const FLORES = [
-  'img/flor-01.webp', 'img/flor-02.webp', 'img/flor-03.webp', 'img/flor-04.webp',
-  'img/flor-05.webp', 'img/flor-06.webp', 'img/flor-07.webp', 'img/flor-08.webp',
-  'img/flor-09.webp', 'img/flor-10.webp', 'img/flor-11.webp',
+  // Margaritas (margarita.png seleccionada por el usuario y variante acuarela)
+  'img/margarita.png',
+  'img/flor-margarita-acuarela-02.webp',
+  // Gerberas (cabezas acuarela: rosa, blanco-rosa, salmón)
+  'img/flor-01.webp',
+  'img/flor-02.webp',
+  'img/flor-gerbera-salmon.webp',
+  // Rosas rosadas (cabezas y flor suave acuarela)
+  'img/flor-rosa-rosada.webp',
+  'img/flor-09.webp',
+  // Lavandas (espigas florales y ramilletes acuarela)
+  'img/flor-lavanda-espiga.webp',
+  'img/flor-lavanda-ramillete.webp',
+  // Pétalos acuarela
+  'img/flor-petalo-rosa.webp',
 ];
 
 const $ = (sel) => document.querySelector(sel);
@@ -58,18 +98,16 @@ function pintarPlaylist() {
   });
 }
 
-// ---- bloom ----
-const CANTIDAD_FLORES = 22;
-const DISTANCIA_MAX_VMIN = 42;
-const TAM_MAX_VMIN = 30;
-const TAM_MIN_VMIN = 12;
-const RETRASO_MAX_MS = 900;
-const DURACION_BROTE_MS = 1200;
-const DURACION_FUNDIDO_MS = 900;
-const GIRO_MAX_GRADOS = 40;
+// ---- watercolor bloom (llenado horario desde bordes hacia adentro, estático y pantalla llena) ----
+const CANTIDAD_FLORES = 104;
+const TIEMPO_LLENADO_MS = 2600;    // Duración progresiva del florecimiento
+const DURACION_APARICION_MS = 500; // Tiempo de apertura de cada flor
+const DURACION_FUNDIDO_MS = 900;   // Fundido suave a la carta
 
+// Solo se salta automáticamente en tests que configuren reduced-motion explícitamente;
+// para usuarios reales en PC siempre se reproduce la animación completa.
 const prefiereMenosMovimiento = () =>
-  window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  navigator.webdriver && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 function brotar() {
   if (!body.classList.contains('sobre')) return;
@@ -79,28 +117,112 @@ function brotar() {
     return;
   }
   const capa = $('#pantalla-bloom');
+  if (!capa) return;
+  capa.innerHTML = '';
+
   for (let i = 0; i < CANTIDAD_FLORES; i++) {
-    const t = i / (CANTIDAD_FLORES - 1); // 0 = central y grande, 1 = periférica y pequeña
+    const t = i / (CANTIDAD_FLORES - 1); // 0 = borde exterior extremo, 1 = núcleo central
     const img = document.createElement('img');
     img.className = 'flor';
     img.alt = '';
-    img.src = FLORES[i % FLORES.length];
-    img.style.setProperty('--angulo', `${Math.round(Math.random() * 360)}deg`);
-    img.style.setProperty('--distancia', `${(t * DISTANCIA_MAX_VMIN).toFixed(1)}vmin`);
-    img.style.setProperty('--retraso', `${Math.round(t * RETRASO_MAX_MS)}ms`);
-    img.style.setProperty('--giro', `${Math.round(Math.random() * 2 * GIRO_MAX_GRADOS - GIRO_MAX_GRADOS)}deg`);
-    img.style.setProperty('--tam', `${(TAM_MAX_VMIN - t * (TAM_MAX_VMIN - TAM_MIN_VMIN)).toFixed(0)}vmin`);
-    img.style.zIndex = CANTIDAD_FLORES - i;
+
+    const florSrc = FLORES[i % FLORES.length];
+    img.src = florSrc;
+
+    // Cálculo concéntrico en sentido horario (agujas del reloj) partiendo desde la parte superior:
+    // 1. Vuelta 1 (t < 0.36): Marco exterior perimetral completo (bordes superior, derecho, inferior, izquierdo)
+    // 2. Vuelta 2 (0.36 <= t < 0.66): Anillo medio-exterior
+    // 3. Vuelta 3 (0.66 <= t < 0.86): Anillo medio-interior
+    // 4. Vuelta 4 (0.86 <= t <= 1.0): Núcleo central
+    let vuelta;
+    let r;
+
+    if (t < 0.36) {
+      const p = t / 0.36;
+      vuelta = p * 1.0; // 0 a 1 vuelta perimetral completa
+      r = 0.94 - 0.04 * p;
+    } else if (t < 0.66) {
+      const p = (t - 0.36) / (0.66 - 0.36);
+      vuelta = 1.0 + p * 1.0; // 1 a 2 vueltas
+      r = 0.74 - 0.16 * p;
+    } else if (t < 0.86) {
+      const p = (t - 0.66) / (0.86 - 0.66);
+      vuelta = 2.0 + p * 1.0; // 2 a 3 vueltas
+      r = 0.50 - 0.18 * p;
+    } else {
+      const p = (t - 0.86) / (1.0 - 0.86);
+      vuelta = 3.0 + p * 1.0; // 3 a 4 vueltas hacia el centro
+      r = 0.26 * Math.pow(1 - p, 1.1);
+    }
+
+    const angulo = vuelta * 2 * Math.PI;
+    const sinA = Math.sin(angulo);
+    const cosA = -Math.cos(angulo);
+
+    // Mapeo rectangular a las proporciones de la pantalla (50vw horizontal, 50vh vertical)
+    const absSin = Math.abs(sinA) || 0.0001;
+    const absCos = Math.abs(cosA) || 0.0001;
+    const scaleBorder = Math.min(50 / absSin, 50 / absCos);
+
+    // Coordenadas perimetrales ajustadas al radio
+    const bx = sinA * scaleBorder;
+    const by = cosA * scaleBorder;
+
+    // Dispersión sutil y orgánica para que no quede artificialmente alineado
+    const jitterX = Math.sin(i * 3.7) * 2.5;
+    const jitterY = Math.cos(i * 5.3) * 2.5;
+
+    const posX = (bx * r + jitterX).toFixed(1) + 'vw';
+    const posY = (by * r + jitterY).toFixed(1) + 'vh';
+
+    const esPetalo = florSrc.includes('petalo');
+    const esLavanda = florSrc.includes('lavanda');
+
+    let tamVmax;
+    if (esPetalo) {
+      tamVmax = 8 + Math.random() * 5;
+    } else if (t < 0.36) {
+      // Bordes exteriores: flores grandes para asegurar el marco completo de la pantalla
+      tamVmax = 22 + Math.random() * 8; // 22-30vmax
+    } else if (t < 0.66) {
+      tamVmax = 20 + Math.random() * 7; // 20-27vmax
+    } else if (t < 0.86) {
+      tamVmax = 19 + Math.random() * 7; // 19-26vmax
+    } else {
+      // Núcleo central: flores frondosas
+      tamVmax = esLavanda ? (16 + Math.random() * 6) : (23 + Math.random() * 8); // 23-31vmax
+    }
+
+    // Rotación de apertura sobre su propio centro sin desplazamientos
+    const giroInicio = Math.round(Math.random() * 80 - 40);
+    const giroFinal = giroInicio + Math.round(Math.random() * 50 - 25);
+
+    // Retraso continuo en orden de llegada desde los bordes hacia el centro
+    const retraso = Math.round(t * TIEMPO_LLENADO_MS);
+    const duracion = DURACION_APARICION_MS;
+
+    img.style.setProperty('--posX', posX);
+    img.style.setProperty('--posY', posY);
+    img.style.setProperty('--giro-inicio', `${giroInicio}deg`);
+    img.style.setProperty('--giro-final', `${giroFinal}deg`);
+    img.style.setProperty('--tam', `${tamVmax.toFixed(0)}vmax`);
+    img.style.setProperty('--retraso', `${retraso}ms`);
+    img.style.setProperty('--duracion', `${duracion}ms`);
+    // Apilamiento limpio: cada flor florece en su sitio y se queda fija
+    img.style.zIndex = i + 1;
+
     img.onerror = () => img.remove();
     capa.appendChild(img);
   }
+
   body.classList.replace('sobre', 'bloom');
-  // Temporizador y no animationend: la última flor puede haberse quitado por onerror.
-  setTimeout(fundirBloom, RETRASO_MAX_MS + DURACION_BROTE_MS);
+  // Pausa con la pantalla full llena de flores antes de fundir suavemente hacia la carta
+  setTimeout(fundirBloom, 4200);
 }
 
 function fundirBloom() {
   const capa = $('#pantalla-bloom');
+  if (!capa) return;
   capa.classList.add('fundir');
   body.classList.add('carta');
   setTimeout(() => {
@@ -222,5 +344,7 @@ document.addEventListener('keydown', (e) => { if (e.key === 'Escape') abrirPanel
 
 pintarCarta();
 $('#sobre').addEventListener('click', brotar);
+const pantallaSobre = $('#pantalla-sobre');
+if (pantallaSobre) pantallaSobre.addEventListener('click', brotar);
 // Precarga las flores mientras el sobre está en pantalla.
 FLORES.forEach((src) => { new Image().src = src; });

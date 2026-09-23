@@ -29,6 +29,7 @@ body {
   z-index: 30;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   gap: 24px;
+  cursor: pointer;
 }
 body:not(.sobre) #pantalla-sobre { display: none; }
 #sobre { background: none; border: 0; padding: 0; cursor: pointer; min-width: 44px; min-height: 44px; }
@@ -37,33 +38,51 @@ body:not(.sobre) #pantalla-sobre { display: none; }
 @media (prefers-reduced-motion: reduce) { #sobre img { animation: none; } }
 .pista { font-family: var(--serif); font-style: italic; color: var(--tinta-suave); margin: 0; }
 
-#pantalla-bloom { z-index: 20; display: none; background: var(--crema); overflow: hidden; }
+#pantalla-bloom {
+  position: fixed; inset: 0;
+  z-index: 20;
+  display: none;
+  background: radial-gradient(circle at center, #fff7f9 0%, #faeef3 45%, var(--crema) 100%);
+  overflow: hidden;
+  opacity: 1;
+  transition: opacity .9s ease;
+}
 body.bloom #pantalla-bloom { display: block; }
-
-/* ---------- bloom ---------- */
-.flor {
-  position: absolute; left: 50%; top: 50%;
-  width: var(--tam); height: var(--tam); object-fit: contain;
-  margin: calc(var(--tam) / -2) 0 0 calc(var(--tam) / -2);
-  transform: scale(0); opacity: 0;
-  filter: drop-shadow(0 6px 12px rgba(120,60,80,.18));
-  animation: brotar 1.2s cubic-bezier(.2,.9,.3,1.15) var(--retraso) forwards;
+#pantalla-bloom.fundir {
+  opacity: 0;
   pointer-events: none;
 }
-@keyframes brotar {
-  from {
-    transform: rotate(var(--angulo)) translateY(0) rotate(calc(-1 * var(--angulo))) scale(0);
+
+/* ---------- watercolor bloom (llenado horario desde bordes hacia adentro, estático y pantalla llena) ---------- */
+.flor {
+  position: absolute;
+  left: calc(50% + var(--posX));
+  top: calc(50% + var(--posY));
+  width: var(--tam);
+  height: var(--tam);
+  object-fit: contain;
+  margin: calc(var(--tam) / -2) 0 0 calc(var(--tam) / -2);
+  transform: rotate(var(--giro-inicio, 0deg)) scale(0);
+  opacity: 0;
+  filter: drop-shadow(0 4px 12px rgba(120, 35, 65, 0.16));
+  animation: florFlorecer var(--duracion, 520ms) cubic-bezier(0.16, 1, 0.3, 1) var(--retraso, 0ms) forwards;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+@keyframes florFlorecer {
+  0% {
+    transform: rotate(var(--giro-inicio, 0deg)) scale(0);
     opacity: 0;
   }
-  40% { opacity: 1; }
-  to {
-    transform: rotate(var(--angulo)) translateY(calc(-1 * var(--distancia)))
-               rotate(calc(-1 * var(--angulo) + var(--giro))) scale(1);
+  30% {
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(var(--giro-final, 0deg)) scale(1);
     opacity: 1;
   }
 }
-#pantalla-bloom { transition: transform .9s ease-in, opacity .9s ease-in; }
-#pantalla-bloom.fundir { transform: scale(1.6); opacity: 0; }
 
 #pantalla-carta {
   z-index: 10;
@@ -95,47 +114,389 @@ body.carta #pantalla-carta { opacity: 1; visibility: visible; transition-delay: 
 }
 h1 { font-family: var(--serif); font-weight: 500; font-size: 32px; margin: 0 0 20px; }
 
-/* ---------- casete ---------- */
+/* ---------- casete vintage sage botánico ---------- */
 .casete {
   position: relative;
-  background: linear-gradient(180deg, #b7c2a6, var(--salvia));
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto 24px;
+  background: linear-gradient(175deg, #bcc8b1 0%, #abb9a2 40%, #98a68e 100%);
+  border-radius: 14px;
+  padding: 16px 16px 0;
+  box-shadow: 
+    inset 0 1.5px 1px rgba(255,255,255,0.75),
+    inset 0 -1.5px 2px rgba(0,0,0,0.18),
+    0 18px 40px rgba(50,60,45,0.22);
+  border: 1px solid #7e8c74;
+  box-sizing: border-box;
+  user-select: none;
+}
+
+/* Ranura biselada exterior */
+.casete::before {
+  content: '';
+  position: absolute;
+  inset: 5px;
   border-radius: 10px;
-  padding: 18px 22px 14px;
-  margin: 0 0 20px;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.5), 0 10px 24px rgba(60,70,50,.25);
+  border: 1px solid rgba(255,255,255,0.3);
+  pointer-events: none;
 }
+
+/* 5 Tornillos metálicos Phillips */
 .tornillo {
-  position: absolute; width: 9px; height: 9px; border-radius: 50%;
-  background: radial-gradient(circle, #6d6a62 30%, #3e3c38 100%);
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #f2f5ed 0%, #b2baa8 50%, #687260 100%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), 0 1.5px 3.5px rgba(0,0,0,0.4);
+  border: 1px solid #545e4d;
+  z-index: 10;
 }
-.tornillo.tl { top: 8px; left: 8px; }   .tornillo.tr { top: 8px; right: 8px; }
-.tornillo.bl { bottom: 8px; left: 8px; } .tornillo.br { bottom: 8px; right: 8px; }
+.tornillo::before, .tornillo::after {
+  content: '';
+  position: absolute;
+  background: #394034;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.4);
+}
+.tornillo::before {
+  top: 6px; left: 2.5px; width: 8px; height: 1.8px;
+}
+.tornillo::after {
+  top: 2.5px; left: 6px; width: 1.8px; height: 8px;
+}
+.tornillo.tl { top: 9px; left: 9px; }
+.tornillo.tr { top: 9px; right: 9px; }
+.tornillo.bl { bottom: 9px; left: 9px; }
+.tornillo.br { bottom: 9px; right: 9px; }
+.tornillo.tc {
+  bottom: 64px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Etiqueta de papel botánica con esquinas cortadas */
 .etiqueta {
-  background: var(--crema-claro); border-radius: 6px; padding: 10px 14px 12px;
-  text-align: center;
+  position: relative;
+  background: #fcf9f2;
+  border-radius: 9px;
+  padding: 12px 14px 14px;
+  border: 1px solid #cec6b3;
+  box-shadow: 
+    inset 0 1.5px 3px rgba(0,0,0,0.06),
+    0 1px 0 rgba(255,255,255,0.85);
+  overflow: hidden;
+  clip-path: polygon(
+    9px 0%, calc(100% - 9px) 0%, 
+    100% 9px, 100% calc(100% - 9px), 
+    calc(100% - 9px) 100%, 9px 100%, 
+    0% calc(100% - 9px), 0% 9px
+  );
+}
+
+/* Follaje botánico de eucalipto y olivo en acuarela */
+.etiqueta-decoracion {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.85;
+  background-image: url("data:image/svg+xml,%3Csvg width='440' height='180' viewBox='0 0 440 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%236f8365' stroke='%235f7355'%3E%3C!-- Rama izq exterior --%3E%3Cpath d='M30 160 Q38 95 26 30' stroke-width='1.5' fill='none'/%3E%3Cellipse cx='18' cy='42' rx='7' ry='4' transform='rotate(-25 18 42)' fill='%237a8f71' stroke-width='0.5'/%3E%3Cellipse cx='34' cy='38' rx='7' ry='4' transform='rotate(25 34 38)' fill='%237a8f71' stroke-width='0.5'/%3E%3Cellipse cx='16' cy='65' rx='8' ry='4.5' transform='rotate(-30 16 65)' fill='%236f8365' stroke-width='0.5'/%3E%3Cellipse cx='36' cy='60' rx='8' ry='4.5' transform='rotate(30 36 60)' fill='%236f8365' stroke-width='0.5'/%3E%3Cellipse cx='18' cy='90' rx='8' ry='5' transform='rotate(-25 18 90)' fill='%237a8f71' stroke-width='0.5'/%3E%3Cellipse cx='38' cy='85' rx='8' ry='5' transform='rotate(25 38 85)' fill='%237a8f71' stroke-width='0.5'/%3E%3Cellipse cx='20' cy='118' rx='8' ry='5' transform='rotate(-30 20 118)' fill='%236f8365' stroke-width='0.5'/%3E%3Cellipse cx='40' cy='112' rx='8' ry='5' transform='rotate(30 40 112)' fill='%236f8365' stroke-width='0.5'/%3E%3Cellipse cx='26' cy='28' rx='6' ry='3.5' transform='rotate(-10 26 28)' fill='%23889c7f' stroke-width='0.5'/%3E%3C!-- Rama izq interior --%3E%3Cpath d='M75 160 Q82 105 72 45' stroke-width='1.2' fill='none'/%3E%3Cellipse cx='64' cy='58' rx='6.5' ry='3.5' transform='rotate(-25 64 58)' fill='%23809677' stroke-width='0.5'/%3E%3Cellipse cx='80' cy='54' rx='6.5' ry='3.5' transform='rotate(25 80 54)' fill='%23809677' stroke-width='0.5'/%3E%3Cellipse cx='62' cy='82' rx='7' ry='4' transform='rotate(-30 62 82)' fill='%23758b6c' stroke-width='0.5'/%3E%3Cellipse cx='82' cy='78' rx='7' ry='4' transform='rotate(30 82 78)' fill='%23758b6c' stroke-width='0.5'/%3E%3Cellipse cx='65' cy='110' rx='7' ry='4' transform='rotate(-25 65 110)' fill='%23809677' stroke-width='0.5'/%3E%3Cellipse cx='83' cy='105' rx='7' ry='4' transform='rotate(25 83 105)' fill='%23809677' stroke-width='0.5'/%3E%3C!-- Rama der exterior --%3E%3Cpath d='M410 160 Q402 95 414 30' stroke-width='1.5' fill='none'/%3E%3Cellipse cx='422' cy='42' rx='7' ry='4' transform='rotate(25 422 42)' fill='%237a8f71' stroke-width='0.5'/%3E%3Cellipse cx='406' cy='38' rx='7' ry='4' transform='rotate(-25 406 38)' fill='%237a8f71' stroke-width='0.5'/%3E%3Cellipse cx='424' cy='65' rx='8' ry='4.5' transform='rotate(30 424 65)' fill='%236f8365' stroke-width='0.5'/%3E%3Cellipse cx='404' cy='60' rx='8' ry='4.5' transform='rotate(-30 404 60)' fill='%236f8365' stroke-width='0.5'/%3E%3Cellipse cx='422' cy='90' rx='8' ry='5' transform='rotate(25 422 90)' fill='%237a8f71' stroke-width='0.5'/%3E%3Cellipse cx='402' cy='85' rx='8' ry='5' transform='rotate(-25 402 85)' fill='%237a8f71' stroke-width='0.5'/%3E%3Cellipse cx='420' cy='118' rx='8' ry='5' transform='rotate(30 420 118)' fill='%236f8365' stroke-width='0.5'/%3E%3Cellipse cx='400' cy='112' rx='8' ry='5' transform='rotate(-30 400 112)' fill='%236f8365' stroke-width='0.5'/%3E%3Cellipse cx='414' cy='28' rx='6' ry='3.5' transform='rotate(10 414 28)' fill='%23889c7f' stroke-width='0.5'/%3E%3C!-- Rama der interior --%3E%3Cpath d='M365 160 Q358 105 368 45' stroke-width='1.2' fill='none'/%3E%3Cellipse cx='376' cy='58' rx='6.5' ry='3.5' transform='rotate(25 376 58)' fill='%23809677' stroke-width='0.5'/%3E%3Cellipse cx='360' cy='54' rx='6.5' ry='3.5' transform='rotate(-25 360 54)' fill='%23809677' stroke-width='0.5'/%3E%3Cellipse cx='378' cy='82' rx='7' ry='4' transform='rotate(30 378 82)' fill='%23758b6c' stroke-width='0.5'/%3E%3Cellipse cx='358' cy='78' rx='7' ry='4' transform='rotate(-30 358 78)' fill='%23758b6c' stroke-width='0.5'/%3E%3Cellipse cx='375' cy='110' rx='7' ry='4' transform='rotate(25 375 110)' fill='%23809677' stroke-width='0.5'/%3E%3Cellipse cx='357' cy='105' rx='7' ry='4' transform='rotate(-25 357 105)' fill='%23809677' stroke-width='0.5'/%3E%3C!-- Ramitas superiores --%3E%3Cpath d='M120 40 Q135 15 155 12' stroke-width='1' fill='none'/%3E%3Cellipse cx='140' cy='22' rx='5.5' ry='3' transform='rotate(20 140 22)' fill='%23889c7f' stroke-width='0.5'/%3E%3Cellipse cx='155' cy='14' rx='5' ry='2.8' transform='rotate(-10 155 14)' fill='%23889c7f' stroke-width='0.5'/%3E%3Cpath d='M320 40 Q305 15 285 12' stroke-width='1' fill='none'/%3E%3Cellipse cx='300' cy='22' rx='5.5' ry='3' transform='rotate(-20 300 22)' fill='%23889c7f' stroke-width='0.5'/%3E%3Cellipse cx='285' cy='14' rx='5' ry='2.8' transform='rotate(10 285 14)' fill='%23889c7f' stroke-width='0.5'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+/* Pastilla de título superior */
+.etiqueta-cab {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+  margin-bottom: 9px;
 }
 .etiqueta-titulo {
-  display: inline-block; font-family: var(--serif); font-style: italic; font-size: 13px;
-  border: 1px solid var(--salvia); border-radius: 999px; padding: 2px 14px; color: var(--salvia-oscuro);
+  display: inline-block;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(11.5px, 2.4vw, 13px);
+  font-weight: 500;
+  color: #353f2f;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(125, 140, 115, 0.5);
+  border-radius: 999px;
+  padding: 2.5px 16px;
+  letter-spacing: 0.02em;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  max-width: 92%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
+
+/* Ventana plástica central (cápsula alargada) */
+.ventana-capsula {
+  position: relative;
+  z-index: 2;
+  background: linear-gradient(180deg, #87947d 0%, #99a68f 100%);
+  border-radius: 999px;
+  padding: 6px 10px;
+  box-shadow: 
+    inset 0 2.5px 5px rgba(0,0,0,0.4),
+    inset 0 -1px 1px rgba(255,255,255,0.45),
+    0 1px 2px rgba(255,255,255,0.9);
+  border: 1px solid #64705c;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 294px;
+  box-sizing: border-box;
+}
+
 .ventana {
-  display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 52px;
+  position: relative;
+  gap: 6px;
 }
+
+/* Carrete blanco con 6 dientes y orificio central */
 .carrete {
-  width: 44px; height: 44px; border-radius: 50%;
-  border: 5px dashed #cfc7b4;
-  background: radial-gradient(circle, #f4efe4 0 8px, #d9d2c0 9px 14px, #f4efe4 15px);
-  animation: girar 2s linear infinite;
+  position: relative;
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #faf7f0;
+  box-shadow: 
+    inset 0 1.5px 2px rgba(0,0,0,0.2),
+    0 1px 3px rgba(0,0,0,0.3);
+  border: 1px solid #cfc7b4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: girar 2.4s linear infinite;
   animation-play-state: paused;
 }
 body.sonando .carrete { animation-play-state: running; }
 @keyframes girar { to { transform: rotate(360deg); } }
-.cinta { width: 70px; height: 34px; background: #3b2a24; border-radius: 4px; }
-.base {
-  display: flex; justify-content: space-between; margin: 12px 24px 0;
+
+/* Dientes del carrete: 6 dientes blancos que engranan con el eje */
+.carrete .dientes {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #18110f;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.base span { width: 12px; height: 8px; background: #3e3c38; border-radius: 2px; opacity: .6; }
-.base span:nth-child(2) { width: 40px; opacity: .3; }
+.carrete .dientes::before {
+  content: '';
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: 
+    conic-gradient(
+      #faf7f0 0deg 20deg, transparent 20deg 60deg,
+      #faf7f0 60deg 80deg, transparent 80deg 120deg,
+      #faf7f0 120deg 140deg, transparent 140deg 180deg,
+      #faf7f0 180deg 200deg, transparent 200deg 240deg,
+      #faf7f0 240deg 260deg, transparent 260deg 300deg,
+      #faf7f0 300deg 320deg, transparent 320deg 360deg
+    );
+  clip-path: polygon(50% 50%, 0% 0%, 100% 0%, 100% 100%, 0% 100%);
+}
+.carrete .dientes::after {
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #18110f;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+/* Visor de cinta magnética */
+.cinta-visor {
+  position: relative;
+  flex: 1;
+  max-width: 172px;
+  height: 44px;
+  background: #18110f;
+  border-radius: 5px;
+  border: 1px solid rgba(255,255,255,0.18);
+  box-shadow: inset 0 2.5px 6px rgba(0,0,0,0.85);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Rollos de cinta magnética enrollada */
+.rollo-izq {
+  width: 76px;
+  height: 54px;
+  background: radial-gradient(circle at right, #442a1e 0%, #1e120c 100%);
+  border-radius: 50%;
+  margin-left: -28px;
+  box-shadow: inset 0 0 5px #000;
+}
+.rollo-der {
+  width: 58px;
+  height: 54px;
+  background: radial-gradient(circle at left, #442a1e 0%, #1e120c 100%);
+  border-radius: 50%;
+  margin-right: -18px;
+  box-shadow: inset 0 0 5px #000;
+}
+.rollo-guia {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 36px;
+  height: 38px;
+  background: #faf6ef;
+  border-radius: 3px;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.rollo-guia::after {
+  content: '';
+  width: 14px;
+  height: 24px;
+  background: #1c1412;
+  border-radius: 2px;
+}
+.cinta-visor::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.06) 42%, transparent 60%);
+  pointer-events: none;
+}
+
+/* Stickers decorativos debajo de la ventana */
+.stickers {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin-top: 8px;
+  height: 32px;
+}
+
+/* 1. Sticker ramita botánica con lacito */
+.sticker-ramita {
+  width: 28px;
+  height: 28px;
+  background-image: url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M16 28 C16 20 9 15 6 9 C11 10 16 16 16 28 Z' fill='%235d7454'/%3E%3Cpath d='M16 23 C19 18 24 14 26 8 C21 9 17 15 16 23 Z' fill='%23728b68'/%3E%3Cpath d='M16 17 C13 12 14 6 17 3 C18 8 17 14 16 17 Z' fill='%2386a17b'/%3E%3Ccircle cx='16' cy='26' r='2.5' fill='%23e27591'/%3E%3Cpath d='M14 27 L11 31 M18 27 L21 31' stroke='%23e27591' stroke-width='1.2' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  filter: drop-shadow(0 1.5px 2px rgba(0,0,0,0.18));
+}
+
+/* 2. Sticker medallón vintage con flor */
+.sticker-medallon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #fae4d0;
+  border: 1.5px dashed #cf956d;
+  box-shadow: 0 1.5px 3px rgba(0,0,0,0.16);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sticker-medallon::after {
+  content: '🌸';
+  font-size: 16px;
+  line-height: 1;
+  filter: drop-shadow(0 1px 1px rgba(120,40,40,0.25));
+}
+
+/* 3. Sticker lazo cuadrillé vichy rojo/blanco */
+.sticker-lazo {
+  width: 32px;
+  height: 28px;
+  background-image: url("data:image/svg+xml,%3Csvg width='36' height='32' viewBox='0 0 36 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='gingham' width='4' height='4' patternUnits='userSpaceOnUse'%3E%3Crect width='4' height='4' fill='%23ffffff'/%3E%3Crect width='2' height='4' fill='%23e04e62' opacity='0.75'/%3E%3Crect width='4' height='2' fill='%23e04e62' opacity='0.75'/%3E%3Crect width='2' height='2' fill='%23b81d32'/%3E%3C/pattern%3E%3Cfilter id='s' x='-15%25' y='-15%25' width='130%25' height='130%25'%3E%3CfeDropShadow dx='0' dy='1.5' stdDeviation='1.5' flood-color='%233a1018' flood-opacity='0.25'/%3E%3C/filter%3E%3C/defs%3E%3Cg filter='url(%23s)'%3E%3Cpath d='M18 13 C13 5 3 6 5 14 C8 19 16 16 18 13 Z' fill='url(%23gingham)' stroke='%23a41e30' stroke-width='0.7'/%3E%3Cpath d='M18 13 C23 5 33 6 31 14 C28 19 20 16 18 13 Z' fill='url(%23gingham)' stroke='%23a41e30' stroke-width='0.7'/%3E%3Cpath d='M17 14 L11 29 L17 26 L19 29 L18 14 Z' fill='url(%23gingham)' stroke='%23a41e30' stroke-width='0.7'/%3E%3Cpath d='M19 14 L25 29 L21 26 L19 29 L19 14 Z' fill='url(%23gingham)' stroke='%23a41e30' stroke-width='0.7'/%3E%3Cellipse cx='18' cy='13.5' rx='3.5' ry='3' fill='url(%23gingham)' stroke='%23a41e30' stroke-width='0.7'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  filter: drop-shadow(0 1.5px 2.5px rgba(0,0,0,0.18));
+}
+
+/* Pie trapezoidal inferior con orificios de cabezal */
+.casete-pie {
+  position: relative;
+  margin: 8px auto 0;
+  width: 82%;
+  max-width: 330px;
+  height: 56px;
+  background: linear-gradient(180deg, #b0bca6 0%, #95a38b 100%);
+  clip-path: polygon(7% 0, 93% 0, 100% 100%, 0 100%);
+  border-top: 1px solid rgba(255,255,255,0.5);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding-bottom: 10px;
+  box-sizing: border-box;
+}
+
+.orificios {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: min(24px, 4vw);
+}
+
+.agujero {
+  background: #181210;
+  box-shadow: inset 0 1.5px 3.5px rgba(0,0,0,0.85), 0 1px 0 rgba(255,255,255,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.agujero.cuadrado {
+  width: 16px;
+  height: 12px;
+  border-radius: 2px;
+}
+.agujero.redondo {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  position: relative;
+}
+.carrete-color {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #a82e5c 30%, #56122d 100%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.45);
+  display: block;
+}
+
+/* Ajustes adaptativos para pantallas pequeñas */
+@media (max-width: 380px) {
+  .casete { padding: 12px 10px 0; }
+  .carrete { width: 40px; height: 40px; }
+  .carrete .dientes { width: 24px; height: 24px; }
+  .carrete .dientes::before { width: 24px; height: 24px; }
+  .ventana-capsula { padding: 4px 6px; }
+  .cinta-visor { height: 38px; }
+  .stickers { gap: 12px; margin-top: 6px; }
+  .casete-pie { height: 48px; padding-bottom: 8px; }
+  .orificios { gap: 12px; }
+  .tornillo.tc { bottom: 54px; }
+}
 
 /* ---------- playlist ---------- */
 #playlist { list-style: none; margin: 0; padding: 0; }
@@ -179,16 +540,34 @@ body.sonando #playlist li.activa button::before { content: '❚❚'; }
 }
 
 /* ---------- ramo ---------- */
-.ramo { position: relative; width: 140px; height: 180px; margin: 8px auto 0; isolation: isolate; }
-.ramo img { position: absolute; width: 70px; top: 0; }
-.ramo img:nth-child(1) { left: 0; }
-.ramo img:nth-child(2) { left: 35px; top: -14px; z-index: 2; }
-.ramo img:nth-child(3) { left: 70px; }
-.cono {
-  position: absolute; left: 40px; top: 60px; width: 60px; height: 120px;
-  background: linear-gradient(160deg, #e9d7bd, #c9b18e);
-  clip-path: polygon(0 0, 100% 0, 60% 100%, 40% 100%);
-  z-index: -1;
+.ramo {
+  position: relative;
+  width: 100%;
+  max-width: 220px;
+  margin: 12px auto 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ramo-img {
+  width: 100%;
+  height: auto;
+  max-height: 230px;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 12px 24px rgba(0,0,0,.35)) drop-shadow(0 2px 5px rgba(0,0,0,.2));
+  animation: mecerRamo 4.5s ease-in-out infinite;
+  transform-origin: 50% 90%;
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+@keyframes mecerRamo {
+  0%, 100% { transform: translateZ(0) rotate(0deg) translateY(0); }
+  50% { transform: translateZ(0) rotate(1.6deg) translateY(-3px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ramo-img { animation: none; }
 }
 
 /* ---------- panel ---------- */
@@ -226,7 +605,11 @@ body.panel-abierto .panel {
 
 /* ---------- escritorio ---------- */
 @media (min-width: 900px) {
-  .tarjeta { width: 560px; margin: 32px auto 32px; padding: 32px 36px; }
-  .dos-columnas { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-  .nota { margin-top: 0; }
+  .tarjeta { width: 640px; margin: 32px auto 32px; padding: 32px 36px; }
+  .dos-columnas { display: grid; grid-template-columns: 230px 1fr; gap: 28px; align-items: start; }
+  .dos-columnas > div:first-child {
+    position: sticky;
+    top: 24px;
+  }
+  .nota { margin-top: 0; border-radius: 4px; }
 }

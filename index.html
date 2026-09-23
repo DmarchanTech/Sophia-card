@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;1,400&family=Inter:wght@400;600&display=swap" rel="stylesheet">
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="estilo.css">
+<link rel="stylesheet" href="estilo.css?v=7">
 </head>
 <body class="sobre">
 
@@ -29,17 +29,50 @@
     <h1 id="titulo"></h1>
 
     <div class="casete" aria-hidden="true">
-      <span class="tornillo tl"></span><span class="tornillo tr"></span>
-      <span class="tornillo bl"></span><span class="tornillo br"></span>
+      <span class="tornillo tl"></span>
+      <span class="tornillo tr"></span>
+      <span class="tornillo bl"></span>
+      <span class="tornillo br"></span>
+      <span class="tornillo tc"></span>
+
       <div class="etiqueta">
-        <span class="etiqueta-titulo" id="casete-titulo"></span>
-        <div class="ventana">
-          <span class="carrete"></span>
-          <span class="cinta"></span>
-          <span class="carrete"></span>
+        <div class="etiqueta-decoracion"></div>
+
+        <div class="etiqueta-cab">
+          <span class="etiqueta-titulo" id="casete-titulo"></span>
+        </div>
+
+        <div class="ventana-capsula">
+          <div class="ventana">
+            <div class="carrete">
+              <span class="dientes"></span>
+            </div>
+            <div class="cinta-visor">
+              <div class="rollo-izq"></div>
+              <div class="rollo-guia"></div>
+              <div class="rollo-der"></div>
+            </div>
+            <div class="carrete">
+              <span class="dientes"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="stickers">
+          <span class="sticker-ramita"></span>
+          <span class="sticker-medallon"></span>
+          <span class="sticker-lazo"></span>
         </div>
       </div>
-      <div class="base"><span></span><span></span><span></span></div>
+
+      <div class="casete-pie">
+        <div class="orificios">
+          <span class="agujero redondo"><i class="carrete-color"></i></span>
+          <span class="agujero cuadrado"></span>
+          <span class="agujero cuadrado"></span>
+          <span class="agujero redondo"><i class="carrete-color"></i></span>
+        </div>
+      </div>
     </div>
 
     <div class="dos-columnas">
@@ -48,7 +81,7 @@
         <p id="estado">Toca una canción</p>
       </div>
       <div class="nota">
-        <p class="nota-cab">Nota</p>
+        <p class="nota-cab">Para ti</p>
         <div id="nota"></div>
         <p class="firma" id="firma"></p>
       </div>
@@ -61,13 +94,12 @@
     <button id="cerrar-panel" type="button" aria-label="Cerrar">×</button>
     <p class="panel-cab">Tu ramo <small id="panel-de"></small></p>
     <div class="ramo" aria-hidden="true">
-      <img src="img/flor-01.webp" alt=""><img src="img/flor-02.webp" alt=""><img src="img/flor-03.webp" alt="">
-      <span class="cono"></span>
+      <img class="ramo-img" src="img/ramo.png?v=6" alt="Ramo de flores con lazo">
     </div>
     <div class="yt-marco"><div id="yt"></div></div>
   </aside>
 </section>
 
-<script src="app.js"></script>
+<script src="app.js?v=4"></script>
 </body>
 </html>

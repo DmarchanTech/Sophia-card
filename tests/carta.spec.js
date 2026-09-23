@@ -11,11 +11,12 @@ test('la carta se pinta desde CONTENIDO', async ({ page }) => {
   await page.goto('/');
   // Sin bloom todavía: forzamos el estado para comprobar el pintado.
   await page.evaluate(() => document.body.classList.replace('sobre', 'carta'));
-  await expect(page.locator('#titulo')).toHaveText('Canciones para ti');
-  await expect(page.locator('#para')).toHaveText('Para Sophia');
-  await expect(page.locator('#playlist li')).toHaveCount(3);
-  await expect(page.locator('#playlist li').nth(1)).toContainText('All of Me');
-  await expect(page.locator('#nota p')).toHaveCount(3);
+  const contenido = await page.evaluate(() => CONTENIDO);
+  await expect(page.locator('#titulo')).toHaveText(contenido.titulo);
+  await expect(page.locator('#para')).toHaveText('Para ' + contenido.para);
+  await expect(page.locator('#playlist li')).toHaveCount(contenido.canciones.length);
+  await expect(page.locator('#playlist li').nth(1)).toContainText(contenido.canciones[1].titulo);
+  await expect(page.locator('#nota p')).toHaveCount(contenido.carta.length);
   await expect(page.locator('#estado')).toHaveText('Toca una canción');
 });
 
@@ -53,14 +54,14 @@ test('elegir una canción la reproduce y marca la fila', async ({ page }) => {
   await expect(page.locator('body')).toHaveClass(/carta/, { timeout: 6000 });
   const hayYouTube = await page.waitForFunction(() => window.YT && window.YT.Player, null, { timeout: 8000 })
     .then(() => true).catch(() => false);
-  test.skip(!hayYouTube, 'Sin conexión a YouTube: no se puede probar la reproducción');
+  const cancion2 = await page.evaluate(() => CONTENIDO.canciones[1].titulo);
   await page.locator('#playlist li').nth(1).locator('button').click();
   await expect(page.locator('#playlist li').nth(1)).toHaveClass(/activa/);
   await expect(page.locator('body')).toHaveClass(/sonando/, { timeout: 10000 });
-  await expect(page.locator('#estado')).toHaveText('Reproduciendo: All of Me');
+  await expect(page.locator('#estado')).toHaveText('Reproduciendo: ' + cancion2);
   await page.locator('#playlist li').nth(1).locator('button').click();
   await expect(page.locator('body')).not.toHaveClass(/sonando/, { timeout: 5000 });
-  await expect(page.locator('#estado')).toHaveText('En pausa: All of Me');
+  await expect(page.locator('#estado')).toHaveText('En pausa: ' + cancion2);
 });
 
 test('sin la API de YouTube la playlist avisa', async ({ page }) => {
