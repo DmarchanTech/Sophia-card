@@ -21,10 +21,22 @@ estar en la carpeta. Para meter una imagen nueva: WebP con transparencia,
 ## Rendimiento del bloom
 
 Son 104 `<img>` animadas con `transform` y `opacity`. **No añadir `filter`
-(drop-shadow, blur) ni `will-change` a `.flor`**: medido el 23 sep 2026 con
-CPU ×4 (≈ teléfono medio), el drop-shadow bajaba el bloom de 50 a 22 fps y el
-peor frame subía de 50 a 233 ms. Las flores se precargan mientras el sobre
-está en pantalla y se decodifican en segundo plano (`decoding = 'async'`).
+(drop-shadow, blur) a `.flor`**: medido el 23 sep 2026 con CPU ×4 (≈ teléfono
+medio), el drop-shadow bajaba el bloom de 50 a 22 fps y el peor frame subía de
+50 a 233 ms. **`.flor` lleva `will-change: transform` y hay que dejarlo**: sin
+él Chrome crea la capa de cada flor al arrancar su animación y, si el raster
+no llega a tiempo, pinta un rectángulo rosa (tile vacío) durante un frame en
+mitad del bloom; se vio en grabaciones a 10 fps y desapareció con `will-change`.
+Las flores se precargan mientras el sobre está en pantalla y se decodifican en
+segundo plano (`decoding = 'async'`).
+
+**La carta está pintada desde la carga, tapada por el sobre y por el bloom**
+(ambas capas opacas). El primer pintado del casete (SVG en data-URI, emoji,
+sombras) cuesta ~600 ms de hilo principal en Chrome con GPU; si la carta se
+ocultara con `visibility`/`display` y se mostrara al fundir, la pantalla se
+congelaría medio segundo justo en la transición (medido el 23 sep 2026, 598 ms
+→ 17 ms). El test `tests/fluidez.spec.js` lo vigila y corre en ventana
+(`headless: false`) porque headless no reproduce el congelón.
 
 ## Probar
 

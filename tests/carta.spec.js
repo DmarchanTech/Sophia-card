@@ -1,10 +1,17 @@
 const { test, expect } = require('@playwright/test');
 
-test('al abrir se ve el sobre y la carta está oculta', async ({ page }) => {
+test('al abrir se ve el sobre y la carta queda tapada e inerte', async ({ page }) => {
   await page.goto('/');
   await expect(page.locator('#sobre')).toBeVisible();
   await expect(page.getByText('Toca para abrir')).toBeVisible();
-  await expect(page.locator('#pantalla-carta')).toBeHidden();
+  // La carta está pintada debajo a propósito (ver estilo.css): lo que importa es que el sobre
+  // la tape del todo y que no reciba clics.
+  const tapada = await page.evaluate(() => {
+    const puntos = [[0.5, 0.5], [0.05, 0.05], [0.95, 0.95], [0.5, 0.9]];
+    return puntos.every(([x, y]) => document.elementFromPoint(innerWidth * x, innerHeight * y)?.closest('#pantalla-sobre'));
+  });
+  expect(tapada).toBe(true);
+  await expect(page.locator('#pantalla-carta')).toHaveCSS('pointer-events', 'none');
 });
 
 test('la carta se pinta desde CONTENIDO', async ({ page }) => {
