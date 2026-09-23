@@ -40,6 +40,7 @@ const CONTENIDO = {
     { titulo: 'Perfect',          artista: 'Ed Sheeran',                 youtube: 'TeNFZmOlWAs' },
     { titulo: 'Hide',             artista: 'Juice WRLD & Seezyn',         youtube: 'zFKBhNsRD6w' },
     { titulo: 'Zombie Lady',      artista: 'Damiano David',              youtube: 'lhX0pP-vrHQ' },
+    { titulo: 'Gone, Gone, Gone', artista: 'Phillip Phillips',           youtube: '2yZx6QNqjE8' },
   ],
 };
 /* ====================================================== */
